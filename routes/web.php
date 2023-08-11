@@ -15,7 +15,9 @@ use App\Http\Controllers\PostController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    
+    // this should be the home page /posts
+    return redirect('/posts');
 });
 
 Route::get('/dashboard', function () {
@@ -27,6 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('/posts', PostController::class);
+
 
 });
 

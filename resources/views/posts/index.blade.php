@@ -13,14 +13,32 @@
                     <span>{{ $post->user->name }}</span>
                     <span class="mx-1">&bull;</span>
                     <span>{{ $post->created_at->diffForHumans() }}</span>
+
+                    @if(auth()->user()->id == $post->user->id || auth()->user()->is_admin)
+                        <div class="ml-auto">
+                            <x-dropdown align="right">
+                                <x-slot name="trigger">
+                                    <button class="focus:outline-none">&#8942;</button>
+                                </x-slot>
+                                <x-slot name="content">
+                                    <a href="{{ route('posts.edit', $post->id) }}" class="block px-4 py-2 text-white hover:bg-indigo-500 hover:text-white">Editează postarea</a>
+                                    <form action="{{ route('posts.destroy', $post->id) }}" method="post" class="mt-2">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="block w-full text-left px-4 py-2 text-white hover:bg-indigo-500 hover:text-white">Șterge postarea</button>
+                                    </form>
+                                </x-slot>
+                            </x-dropdown>
+                        </div>
+                    @endif
+
                 </div>
                 <h2 class="text-lg font-semibold">{{ $post->title }}</h2>
                 <div class="flex justify-center my-4">
                     <a href="{{ route('posts.show', $post) }}">
-                        <img src="{{ asset('storage/posts/' . $post->image_path) }}" alt="Post Image" class="max-w-full h-auto" style=" height:85%; width:90%"> 
+                        <img src="{{ asset('storage/posts/' . $post->image_path) }}" alt="Post Image" class="max-w-full h-auto" style="height:85%; width:90%; min-width: 100px; min-height: 85%; shadow-lg rounded-lg">
                     </a>
                 </div>
-                
             </div>
         </div>
     @endforeach
