@@ -1,12 +1,33 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
+
         @csrf
+
+        <!-- Avatar -->
+        <div class="mt-4">
+            <x-input-label for="avatar" :value="__('Avatar')" />
+            
+            
+            
+            <!-- Upload button -->
+            <input id="avatar" type="file" class="block mt-1 w-full" name="avatar" onchange="previewAvatar(event)">
+            
+            <x-input-error :messages="$errors->get('avatar')" class="mt-2" />
+        </div>
+
 
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />
             <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
+        </div>
+
+        <!-- Username -->
+        <div class="mt-4">
+            <x-input-label for="username" :value="__('Username')" />
+            <x-text-input id="username" class="block mt-1 w-full" type="text" name="username" :value="old('username')" required autocomplete="username" />
+            <x-input-error :messages="$errors->get('username')" class="mt-2" />
         </div>
 
         <!-- Email Address -->
