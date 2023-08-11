@@ -23,14 +23,27 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
+   /**
+ * Handle an incoming authentication request.
+ */
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
+
+        // Verifică dacă contul utilizatorului este activ
+        $user = Auth::user();
+        if (!$user->is_active) {
+            Auth::logout();  // Deconectează utilizatorul
+            
+            // Redirecționează înapoi la formularul de login cu un mesaj de eroare
+            return redirect()->route('login')->withErrors(['email' => 'Contul este blocat.']);
+        }
 
         $request->session()->regenerate();
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }
+
 
     /**
      * Destroy an authenticated session.
