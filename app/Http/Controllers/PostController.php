@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Storage;
 class PostController extends Controller
 {
     // Display a listing of the posts
+
+    
     public function index()
     {
         $posts = Post::orderBy('created_at', 'desc')->get();
@@ -100,4 +102,7 @@ class PostController extends Controller
         return redirect()->route('posts.index')->with('success', 'Post deleted successfully!');
 
     }
+
+    
+    
 }
