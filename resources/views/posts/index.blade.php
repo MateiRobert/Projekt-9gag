@@ -9,7 +9,8 @@
             </div>
             <div class="flex-grow">
                 <div class="flex items-center text-gray-600 text-sm">
-                    <span>{{ $post->user->name }}</span>
+                    <div> @ </div>
+                    <span class="font-bold text-black"> {{ $post->user->name }}</span>
                     <span class="mx-1">&bull;</span>
                     <span>{{ $post->created_at->diffForHumans() }}</span>
 
@@ -31,6 +32,8 @@
                         </div>
                     @endif
                 </div>
+                <span class="text-gray-500 text-sm ml-2 italic">~ {{ $post->category->name }}</span>
+                <hr class="mb-4">
                 <h2 class="text-lg font-semibold">{{ $post->title }}</h2>
                 <div class="flex justify-center my-4">
                     <a href="{{ route('posts.show', $post) }}">
@@ -38,12 +41,13 @@
                     </a>
                 </div>
             </div>
-
+            
+            
+            
             <div class="absolute bottom-4 left-4 flex items-center space-x-4">
                 @php
                 $userVote = $post->votes->where('user_id', auth()->id())->first();
                 @endphp
-                
                 <form action="{{ route('post.upvote', $post->id) }}" method="POST">
                     @csrf
                     <button type="submit" class="p-2 focus:outline-none hover:bg-blue-100">

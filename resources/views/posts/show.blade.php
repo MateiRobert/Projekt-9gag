@@ -6,16 +6,20 @@
 
         <!-- Image of the post -->
         <div class="flex-shrink-0">
-            <img src="{{ asset('storage/posts/' . $post->image_path) }}" alt="Post Image" class="max-w-full object-cover w-full rounded-lg shadow-lg">
+            <img src="{{ asset('storage/posts/' . $post->image_path) }}" alt="Post Image" class="max-w-full object-cover rounded-lg shadow-lg" style="width: 500px; height: auto;">
         </div>
 
         <!-- Comments and details section -->
-        <div class="flex-grow p-4">
+        <div class="flex-grow p-4" style="max-width: 60%;">
             <div class="flex items-center mb-4">
                 <img src="{{ asset('storage/' . $post->user->avatar_path) }}" alt="{{ $post->user->name }}" class="w-10 h-10 rounded-full mr-3">
                 <div> @ </div>
                 <span class="font-semibold">{{ $post->user->name }}</span>
-                <div> / </div>
+                <span class="text-gray-500 text-sm ml-2 italic">~ {{ $post->category->name }} </span>
+                
+
+                
+                
 
                 <!-- Adăugarea timpului de la crearea postării și a butonului de drop-list -->
                 <span class="text-gray-500 ml-2">{{ $post->created_at->diffForHumans() }}</span>
@@ -65,7 +69,10 @@
                             </x-dropdown>
                         </div>
                     @endif
+                    
             </div>
+            
+            
 
             <!-- Post content -->
             <p class="mb-4">{{ $post->content }}</p>

@@ -15,9 +15,14 @@
                 </div>
 
                 <div class="mb-4">
-                    <label for="content" class="block text-sm font-medium text-gray-700">Content</label>
-                    <textarea name="content" id="content" rows="4" class="mt-1 p-2 w-full border rounded-md" required></textarea>
+                    <label for="category_id" class="block text-sm font-medium text-gray-700">Category</label>
+                    <select name="category_id" id="category_id" class="mt-1 p-2 w-full border rounded-md" required>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
+
 
                 <div class="mb-4">
                     <label for="image_path" class="block text-sm font-medium text-gray-700">Image</label>
@@ -27,6 +32,7 @@
                 <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded">
                     Post
                 </button>
+                
             </form>
         </div>
     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -22,8 +23,10 @@ class PostController extends Controller
     // Show the form for creating a new post
     public function create()
     {
-        return view('posts.create');
+        $categories = Category::all();
+        return view('posts.create', ['categories' => $categories]);
     }
+
 
     // Store a newly created post in the database
     public function store(Request $request)
@@ -31,8 +34,11 @@ class PostController extends Controller
         try{
         $data = $request->validate([
             'title' => 'required|string|max:255',
-            'image_path' => 'required|image|max:5120', // 5MB max size
+            'image_path' => 'required|image|max: 2048', // 2MB
         ]);
+
+        $data['category_id'] = $request->input('category_id');
+
 
         if ($request->hasFile('image_path')) {
             $image = $request->file('image_path');
@@ -61,16 +67,21 @@ class PostController extends Controller
     // Show the form for editing the specified post
     public function edit(Post $post)
     {
-        return view('posts.edit', ['post' => $post]);
+        $categories = Category::all();
+        return view('posts.edit', ['post' => $post, 'categories' => $categories]);
     }
+
 
     // Update the specified post in the database
     public function update(Request $request, Post $post)
     {
         $data = $request->validate([
             'title' => 'required|string|max:255',
-            'image_path' => 'sometimes|image|max:5120',
+            'image_path' => 'sometimes|image|max: 2048', // 2MB
         ]);
+
+        $data['category_id'] = $request->input('category_id');
+
 
         if ($request->hasFile('image_path')) {
             // Delete the old image
