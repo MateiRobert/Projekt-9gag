@@ -34,7 +34,7 @@ class PostController extends Controller
         try{
         $data = $request->validate([
             'title' => 'required|string|max:255',
-            'image_path' => 'required|image|max: 2048', // 2MB
+            'image_path' => 'required|mimes:jpeg,png,gif|max:5120', // 5MB
         ]);
 
         $data['category_id'] = $request->input('category_id');
@@ -77,7 +77,7 @@ class PostController extends Controller
     {
         $data = $request->validate([
             'title' => 'required|string|max:255',
-            'image_path' => 'sometimes|image|max: 2048', // 2MB
+            'image_path' => 'required|mimes:jpeg,png,gif|max:5120', // 5MB
         ]);
 
         $data['category_id'] = $request->input('category_id');

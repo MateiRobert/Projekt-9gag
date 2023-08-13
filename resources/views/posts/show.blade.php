@@ -70,7 +70,7 @@
             <hr class="my-4">
 
             <!-- Display previous comments -->
-            <div class="mb-4">
+            <div class="mb-4 overflow-y-auto" style="max-height: 300px;">
                 @foreach($post->comments as $comment)
                     <div class="flex items-center mb-2">
                         <img src="{{ asset('storage/' . $comment->user->avatar_path) }}" alt="{{ $comment->user->name }}" class="w-6 h-6 rounded-full mr-2">
