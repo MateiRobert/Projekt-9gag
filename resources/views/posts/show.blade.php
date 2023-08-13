@@ -13,71 +13,60 @@
         <div class="flex-grow p-4" style="max-width: 60%;">
             <div class="flex items-center mb-4">
                 <img src="{{ asset('storage/' . $post->user->avatar_path) }}" alt="{{ $post->user->name }}" class="w-10 h-10 rounded-full mr-3">
-                <div> @ </div>
+                <div>@</div>
                 <span class="font-semibold">{{ $post->user->name }}</span>
-                <span class="text-gray-500 text-sm ml-2 italic">~ {{ $post->category->name }} </span>
-                
-
-                
-                
-
-                <!-- Adăugarea timpului de la crearea postării și a butonului de drop-list -->
+                <span class="text-gray-500 text-sm ml-2 italic">~ {{ $post->category->name }}</span>
                 <span class="text-gray-500 ml-2">{{ $post->created_at->diffForHumans() }}</span>
-                
 
-                <div class=" flex items-center space-x-4">
-                @php
-                $userVote = $post->votes->where('user_id', auth()->id())->first();
-                @endphp
-                
-                <form action="{{ route('post.upvote', $post->id) }}" method="POST">
-                    @csrf
-                    <button type="submit" class="p-2 focus:outline-none hover:bg-blue-100">
-                        <svg class="w-8 h-8 text-gray-400 {{ $userVote && $userVote->value === 1 ? 'fill-current text-blue-500' : '' }}" viewBox="0 0 24 24">
-                            <!-- Upvote arrow SVG here... -->
+                <div class="flex items-center space-x-4">
+                    @php
+                        $userVote = auth()->check() ? $post->votes->where('user_id', auth()->id())->first() : null;
+                    @endphp
+
+                    <form action="{{ route('post.upvote', $post->id) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="p-2 focus:outline-none hover:bg-blue-100">
+                             <svg class="w-8 h-8 text-gray-400 {{ $userVote && $userVote->value === 1 ? 'fill-current text-blue-500' : '' }}" viewBox="0 0 24 24">
                             <svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m9.001 10.978h-3.251c-.412 0-.75-.335-.75-.752 0-.188.071-.375.206-.518 1.685-1.775 4.692-4.945 6.069-6.396.189-.2.452-.312.725-.312.274 0 .536.112.725.312 1.377 1.451 4.385 4.621 6.068 6.396.136.143.207.33.207.518 0 .417-.337.752-.75.752h-3.251v9.02c0 .531-.47 1.002-1 1.002h-3.998c-.53 0-1-.471-1-1.002zm7.506-1.5-4.507-4.751-4.507 4.751h3.008v10.022h2.998v-10.022z" fill-rule="nonzero"/></svg>
                         </svg>
-                    </button>
-                </form>
-                <span class="text-lg font-semibold">{{ $post->votes->sum('value') }}</span>
-                <form action="{{ route('post.downvote', $post->id) }}" method="POST">
-                    @csrf
-                    <button type="submit" class="p-2 focus:outline-none hover:bg-red-100">
-                        <svg class="w-8 h-8 text-gray-400 {{ $userVote && $userVote->value === -1 ? 'fill-current text-red-500' : '' }}" viewBox="0 0 24 24">
-                            <!-- Downvote arrow SVG here... -->
+                        </button>
+                    </form>
+                    <span class="text-lg font-semibold">{{ $post->votes->sum('value') }}</span>
+                    <form action="{{ route('post.downvote', $post->id) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="p-2 focus:outline-none hover:bg-red-100">
+                            <svg class="w-8 h-8 text-gray-400 {{ $userVote && $userVote->value === -1 ? 'fill-current text-red-500' : '' }}" viewBox="0 0 24 24">
                             <svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m9.001 13.022h-3.251c-.412 0-.75.335-.75.752 0 .188.071.375.206.518 1.685 1.775 4.692 4.945 6.069 6.396.189.2.452.312.725.312.274 0 .536-.112.725-.312 1.377-1.451 4.385-4.621 6.068-6.396.136-.143.207-.33.207-.518 0-.417-.337-.752-.75-.752h-3.251v-9.02c0-.531-.47-1.002-1-1.002h-3.998c-.53 0-1 .471-1 1.002zm4.498-8.522v10.022h3.008l-4.507 4.751-4.507-4.751h3.008v-10.022z" fill-rule="nonzero"/></svg>
                         </svg>
-                    </button>
-                </form>
+                            
+                        </button>
+                    </form>
                 </div>
 
-                <!-- Butonul de drop-list (cele 3 puncte) -->
-                @if(auth()->user()->id == $post->user->id || auth()->user()->is_admin)
-                        <div class="ml-auto">
-                            <x-dropdown align="right">
-                                <x-slot name="trigger">
-                                    <button class="focus:outline-none">&#8942;</button>
-                                </x-slot>
-                                <x-slot name="content">
-                                    <a href="{{ route('posts.edit', $post->id) }}" class="block px-4 py-2 text-white hover:bg-indigo-500 hover:text-white">Editează postarea</a>
-                                    <form action="{{ route('posts.destroy', $post->id) }}" method="post" class="mt-2">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="block w-full text-left px-4 py-2 text-white hover:bg-indigo-500 hover:text-white">Șterge postarea</button>
-                                    </form>
-                                </x-slot>
-                            </x-dropdown>
-                        </div>
-                    @endif
-                    
+                <!-- Dropdown button -->
+                @if(auth()->check() && (auth()->user()->id == $post->user->id || auth()->user()->is_admin))
+                    <div class="ml-auto">
+                        <x-dropdown align="right">
+                            <x-slot name="trigger">
+                                <button class="focus:outline-none">&#8942;</button>
+                            </x-slot>
+                            <x-slot name="content">
+                                <a href="{{ route('posts.edit', $post->id) }}" class="block px-4 py-2 text-white hover:bg-indigo-500 hover:text-white">Editează postarea</a>
+                                <form action="{{ route('posts.destroy', $post->id) }}" method="post" class="mt-2">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="block w-full text-left px-4 py-2 text-white hover:bg-indigo-500 hover:text-white">Șterge postarea</button>
+                                </form>
+                            </x-slot>
+                        </x-dropdown>
+                    </div>
+                @endif
             </div>
-            
-            
 
             <!-- Post content -->
             <p class="mb-4">{{ $post->content }}</p>
 
-            <!-- Linie de delimitare între post și comentarii -->
+            <!-- Line separator -->
             <hr class="my-4">
 
             <!-- Display previous comments -->
@@ -87,7 +76,7 @@
                         <img src="{{ asset('storage/' . $comment->user->avatar_path) }}" alt="{{ $comment->user->name }}" class="w-6 h-6 rounded-full mr-2">
                         <span class="font-semibold">{{ $comment->user->name }}</span>
                         <p class="ml-2">{{ $comment->body }}</p>
-                        @if(auth()->id() == $comment->user_id)
+                        @if(auth()->check() && auth()->id() == $comment->user_id)
                             <form action="{{ route('comments.destroy', [$post, $comment]) }}" method="POST" class="ml-auto">
                                 @csrf
                                 @method('DELETE')
@@ -104,16 +93,24 @@
 
             <!-- Comment input -->
             <div class="border-t pt-4 mt-4">
-                <form action="{{ route('comments.store', $post) }}" method="POST">
-                    @csrf
-                    <div class="flex items-center">
+                @if(auth()->check())
+                    <div class="flex">
                         <img src="{{ asset('storage/' . auth()->user()->avatar_path) }}" alt="{{ auth()->user()->name }}" class="w-10 h-10 rounded-full mr-3">
-                        <input type="text" name="body" class="border rounded-lg p-2 flex-grow" placeholder="Adaugă un comentariu...">
-                        <button type="submit" class="ml-2 bg-blue-500 text-white p-2 rounded-lg">Postează</button>
+                        <form action="{{ route('comments.store', $post) }}" method="POST" class="flex-grow">
+                            @csrf
+                            <textarea name="body" class="w-full bg-gray-100 p-2 rounded-lg"></textarea>
+                            <button type="submit" class="mt-2 px-4 py-2 bg-indigo-500 text-white rounded-lg">Adaugă comentariu</button>
+                        </form>
                     </div>
-                </form>
-            </div>
+                @else
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                        <strong class="font-bold">Atenție!</strong>
+                        <span class="block sm:inline">Trebuie să te autentifici pentru a lăsa un comentariu.</span>
+                        <a href="{{ route('login') }}" class="underline ml-2">Autentifică-te acum</a>.
+                    </div>
+                @endif
 
+            </div>
         </div>
     </div>
 </div>

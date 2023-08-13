@@ -14,7 +14,7 @@
                     <span class="mx-1">&bull;</span>
                     <span>{{ $post->created_at->diffForHumans() }}</span>
 
-                    @if(auth()->user()->id == $post->user->id || auth()->user()->is_admin)
+                        @if(auth()->check() && (auth()->user()->id == $post->user->id || auth()->user()->is_admin))
                         <div class="ml-auto">
                             <x-dropdown align="right">
                                 <x-slot name="trigger">
