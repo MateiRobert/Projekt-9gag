@@ -23,8 +23,8 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('home');
-})->name('home');
+    return redirect('/posts');
+});
 
 Route::middleware('auth')->group(function () {
     //Pentru profil
