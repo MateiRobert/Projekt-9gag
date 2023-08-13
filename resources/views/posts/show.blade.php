@@ -13,7 +13,7 @@
         <div class="flex-grow p-4">
             <div class="flex items-center mb-4">
                 <img src="{{ asset('storage/' . $post->user->avatar_path) }}" alt="{{ $post->user->name }}" class="w-10 h-10 rounded-full mr-3">
-                <div> &bull; </div>
+                <div> @ </div>
                 <span class="font-semibold">{{ $post->user->name }}</span>
                 <div> / </div>
 
