@@ -42,9 +42,14 @@
                 </div>
             </div>
             
-            
-            
+            <!-- Tagurile -->
             <div class="absolute bottom-4 left-4 flex items-center space-x-4">
+                @foreach($post->tags as $tag)
+                    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{{ $tag->name }}</span>
+                @endforeach
+            </div>
+            
+            <div class="absolute bottom-7 left-4 flex items-center space-x-4">
                 @php
                 $userVote = $post->votes->where('user_id', auth()->id())->first();
                 @endphp

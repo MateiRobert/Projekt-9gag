@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Report;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+
+
 
 class PostController extends Controller
 {
@@ -19,6 +22,8 @@ class PostController extends Controller
     {
         $posts = Post::orderBy('created_at', 'desc')->get();
         return view('posts.index', ['posts' => $posts]);
+
+        
     }
     
 
@@ -27,6 +32,8 @@ class PostController extends Controller
     {
         $categories = Category::all();
         return view('posts.create', ['categories' => $categories]);
+
+
     }
 
 
@@ -52,7 +59,27 @@ class PostController extends Controller
             $data['image_path'] = $path;
             }
 
-        Post::create($data + ['user_id' => $request->user()->id]);
+            $post = Post::create($data + ['user_id' => $request->user()->id]);
+
+            // Attach tags to the post
+            // Parse the tags from the form input
+            $tagNames = explode(',', $request->input('tags'));
+            $tagIds = [];
+
+            foreach ($tagNames as $tagName) {
+                // Trim whitespace and make sure it's not empty
+                $tagName = trim($tagName);
+                if (!$tagName) continue;
+
+                // Find the tag by name or create a new one
+                $tag = Tag::firstOrCreate(['name' => $tagName]);
+                $tagIds[] = $tag->id;
+            }
+
+            // Now attach/detach/sync the tags with the post
+            $post->tags()->sync($tagIds);
+
+            
         return redirect()->route('posts.index')->with('success', 'Post created successfully!');
             } catch (\Exception $e) {
         return redirect()->back()->with('error', 'There was an error processing your request.');
@@ -71,6 +98,9 @@ class PostController extends Controller
     {
         $categories = Category::all();
         return view('posts.edit', ['post' => $post, 'categories' => $categories]);
+
+
+
     }
 
 
@@ -79,27 +109,31 @@ class PostController extends Controller
     {
         $data = $request->validate([
             'title' => 'required|string|max:255',
-            'image_path' => 'required|mimes:jpeg,png,gif|max:5120', // 5MB
         ]);
 
         $data['category_id'] = $request->input('category_id');
 
 
-        if ($request->hasFile('image_path')) {
-            // Delete the old image
-            Storage::disk('public')->delete('posts/' . $post->image_path);
+        $post->update($data);
+            // Update tags
+        // Parse the tags from the form input
+        $tagNames = explode(',', $request->input('tags'));
+        $tagIds = [];
 
-            // Save the new image
-            $image = $request->file('image_path');
-            $filename = time() . '.' . $image->getClientOriginalExtension();
-            
-            $path = $request->user()->username . '/' . $filename;
-            Storage::disk('public')->put('posts/' . $path, File::get($image));
-            
-            $data['image_path'] = $path;
+        foreach ($tagNames as $tagName) {
+            // Trim whitespace and make sure it's not empty
+            $tagName = trim($tagName);
+            if (!$tagName) continue;
+
+            // Find the tag by name or create a new one
+            $tag = Tag::firstOrCreate(['name' => $tagName]);
+            $tagIds[] = $tag->id;
         }
 
-        $post->update($data);
+        // Now attach/detach/sync the tags with the post
+        $post->tags()->sync($tagIds);
+
+
         
         return redirect()->route('posts.show', $post)->with('success', 'Post updated successfully!');
 

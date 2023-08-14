@@ -4,6 +4,8 @@
 <div class="container mx-auto mt-10">
     <div class="flex flex-col md:flex-row bg-white rounded-lg p-4 mx-auto" style="max-width: 85%; width: 100%;">
 
+
+            
         <!-- Image of the post -->
         <div class="flex-shrink-0">
             <img src="{{ asset('storage/posts/' . $post->image_path) }}" alt="Post Image" class="max-w-full object-cover rounded-lg shadow-lg" style="width: 500px; height: auto;">
@@ -12,6 +14,8 @@
         <!-- Comments and details section -->
         <div class="flex-grow p-4" style="max-width: 60%;">
             <div class="flex items-center mb-4">
+
+                
                 <img src="{{ asset('storage/' . $post->user->avatar_path) }}" alt="{{ $post->user->name }}" class="w-10 h-10 rounded-full mr-3">
                 <div>@</div>
                 <span class="font-semibold">{{ $post->user->name }}</span>
@@ -68,6 +72,14 @@
 
             <!-- Line separator -->
             <hr class="my-4">
+            <!-- Title of the post -->
+            <h2 class="text-2xl font-semibold mb-4">{{ $post->title }}</h2>
+            <!-- Tagurile -->
+            <div class="mt-2 mb-4">
+                @foreach($post->tags as $tag)
+                    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{{ $tag->name }}</span>
+                @endforeach
+            </div>
 
             <!-- Display previous comments -->
             <div class="mb-4 overflow-y-auto" style="max-height: 300px;">

@@ -29,6 +29,13 @@
                     <input type="file" name="image_path" id="image_path" class="mt-1" required>
                 </div>
 
+                <div class="mb-4">
+                    <label for="tags" class="block text-sm font-medium text-gray-700">Tags</label>
+                    <input type="text" name="tags" id="tags" placeholder="Enter tags separated by commas" class="mt-1 p-2 w-full border rounded-md">
+                </div>
+
+
+
                 <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded">
                     Post
                 </button>
