@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
@@ -58,5 +59,21 @@ class ProfileController extends Controller
         return Redirect::to('/');
     }
 
-    
+    public function updateAvatar(Request $request)
+{
+    $request->validate([
+        'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+    ]);
+
+    // Delete the old avatar from storage
+    if ($request->user()->avatar) {
+        Storage::delete($request->user()->avatar);
+    }
+
+    // Upload the new avatar
+    $avatarPath = $request->file('avatar')->store('avatars');
+
+    // Update the user's avatar path in the database
+    $request->user()->update(['avatar' => $avatarPath]);
+}
 }
