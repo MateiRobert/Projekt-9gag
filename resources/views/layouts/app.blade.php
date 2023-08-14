@@ -54,6 +54,37 @@
         </div>
 
         
+
+
+        
+        <script>
+            function openReportModal(postId) {
+            // Set the value of the hidden input to the postId
+            document.getElementById('reportPostId').value = postId;
+
+            // Update the form action to include the postId
+            document.querySelector('#reportModal form').action = '/report/' + postId;
+
+            // Show the modal
+            document.getElementById('reportModal').style.display = 'flex';
+
+            }
+
+            function closeReportModal() {
+                document.getElementById('reportModal').style.display = 'none';
+                    document.querySelector('#reportModal form').action = '/report/' + postId;
+
+            }
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == document.getElementById('reportModal')) {
+                    closeReportModal();
+                }
+            }
+        </script>
+
+        
         
     </body>
 </html>

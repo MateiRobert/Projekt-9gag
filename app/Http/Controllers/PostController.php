@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\Report;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
@@ -115,5 +117,29 @@ class PostController extends Controller
     }
 
     
-    
+        public function report(Request $request, $postId)
+    {
+        $post = Post::find($postId);
+        
+        if (!$post) {
+            return redirect()->back()->with('error', 'Post not found.');
+        }
+        
+        // Verifică dacă utilizatorul curent a raportat deja postarea
+        $existingReport = Report::where('post_id', $postId)
+                                ->where('reported_by', Auth::id())
+                                ->first();
+                                
+        if ($existingReport) {
+            return redirect()->back()->with('error', 'You already reported this post.');
+        }
+        $report = new Report();
+        $report->post_id = $postId;
+        $report->reported_by = Auth::id();
+        $report->post_owner = $post->user_id;
+        $report->reason = $request->report_reason;
+        $report->save();
+
+        return redirect()->back()->with('success', 'Report submitted.');
+    }
 }

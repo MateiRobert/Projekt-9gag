@@ -50,10 +50,9 @@
                 @endphp
                 <form action="{{ route('post.upvote', $post->id) }}" method="POST">
                     @csrf
-                    <button type="submit" class="p-2 focus:outline-none hover:bg-blue-100">
+                     <button type="submit" class="p-2 focus:outline-none hover:bg-blue-100">
                         <svg class="w-8 h-8 text-gray-400 {{ $userVote && $userVote->value === 1 ? 'fill-current text-blue-500' : '' }}" viewBox="0 0 24 24">
                             <svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m9.001 10.978h-3.251c-.412 0-.75-.335-.75-.752 0-.188.071-.375.206-.518 1.685-1.775 4.692-4.945 6.069-6.396.189-.2.452-.312.725-.312.274 0 .536.112.725.312 1.377 1.451 4.385 4.621 6.068 6.396.136.143.207.33.207.518 0 .417-.337.752-.75.752h-3.251v9.02c0 .531-.47 1.002-1 1.002h-3.998c-.53 0-1-.471-1-1.002zm7.506-1.5-4.507-4.751-4.507 4.751h3.008v10.022h2.998v-10.022z" fill-rule="nonzero"/></svg>
-                        </svg>
                     </button>
                 </form>
                 <span class="text-lg font-semibold">{{ $post->votes->sum('value') }}</span>
@@ -76,14 +75,31 @@
                 <span class="text-gray-600 text-sm">{{ $post->comments->count() }} {{ Str::plural('comment', $post->comments->count()) }}</span>
            
 
-            
-                <button class="p-2 focus:outline-none hover:bg-gray-200 transition-colors  ">
+                <button onclick="openReportModal({{ $post->id }})" class="p-2 focus:outline-none hover:bg-gray-200 transition-colors">
                     <svg class="w-8 h-8 text-gray-400 fill-current hover:text-red-500" viewBox="0 0 24 24">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M4 24h-2v-24h2v24zm18-16l-16-6v12l16-6z"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M4 24h-2v-24h2v24zm18-16l-16-6v12l16-6z"/></svg>
                     </svg>
                 </button>
             </div>
         </div>
     @endforeach
+
+        <!-- Modal Background -->
+    <input type="hidden" name="post_id" id="reportPostId" value="">
+    <div class="fixed inset-0 flex items-center justify-center z-50 hidden" id="reportModal">
+        <!-- Modal Content -->
+        <div class="bg-white p-6 rounded shadow-lg w-1/2">
+            <h2 class="text-xl mb-4">Report Post</h2>
+            <form action="/report" method="POST">
+                @csrf
+                <textarea class="w-full p-2 border rounded mb-4" name="report_reason" placeholder="Write your report reason..."></textarea>
+                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white p-2 rounded">Submit Report</button>
+                <button type="button" class="ml-4 text-gray-500 hover:text-gray-600" onclick="closeReportModal()">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+ 
+
 </div>
 @endsection

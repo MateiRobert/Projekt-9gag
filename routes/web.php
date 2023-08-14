@@ -44,6 +44,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/posts/{post}/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 
 
+    //Pentru raportari
+    Route::post('/report/{postId}', [PostController::class, 'report'])->name('report.post');
+
+
+
+
+
 
 
 });
