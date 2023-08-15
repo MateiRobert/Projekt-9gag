@@ -1,13 +1,13 @@
-<nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 shadow">
+<nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 shadow sticky top-0 z-50 border-b border-gray-200 dark:border-gray-900 dark:text-white dark:bg-gray-800">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
+    <div class=" mx-auto px-4 sm:px-6 lg:px-8">
+        <div class=" flex justify-between h-16">
             <div class="flex">
 
                 <!-- Search Bar -->
-                <form action="{{ route('posts.index') }}" method="GET" class="sm:ml-10 flex items-center bg-white rounded-full p-2 shadow">
-                    <input type="text" name="search" placeholder="Caută..." class="rounded-full p-2 bg-transparent focus:outline-none w-64" value="{{ request()->get('search') }}">
-                    <button type="submit" class="ml-2 rounded-full p-2 bg-blue-500 hover:bg-blue-600 text-white">
+                <form action="{{ route('posts.index') }}" method="GET" class="sm:ml-10 flex items-center bg-dark rounded-full p-2 shadow">
+                    <input type="text" name="search" class="py-1 border border-gray-300 shadow-sm rounded-full p-2 bg-transparent focus:outline-none w-64" placeholder="Caută..." value="{{ request()->get('search') }}">
+                    <button type="submit" class="ml-2 rounded-full p-1.5 bg-blue-500 hover:bg-blue-600 text-black">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 11-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
                         </svg>
@@ -15,7 +15,7 @@
                 </form>
 
                 
-                <!-- Criterii -->
+               
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')">
                         <svg width="20" height="20" fill="currentColor" class="inline-block mr-2" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -23,25 +23,19 @@
                            </svg>
                         {{ __('Acasa') }}
                     </x-nav-link>
-                    <div x-data="{ open: false }" class="relative inline-flex items-center space-x-2">
-                        <button @click="open = !open" class="inline-flex items-center px-1 py-1 border border-transparent text-sm font-medium rounded-md text-white bg-dark hover:text-white-700 hover:border-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            <svg width="20" height="20" fill="currentColor" class="inline-block mr-2" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m18.891 19.498h-13.782l-1.52-9.501h16.823zm-14.306-12.506h14.868l-.227 1.506h-14.415zm.993-2.494h12.882l-.13.983h-12.623zm16.421 4.998c0-.558-.456-.998-1.001-.998h-.253c.309-2.064.289-1.911.289-2.009 0-.58-.469-1.008-1-1.008h-.189c.193-1.461.187-1.399.187-1.482 0-.671-.575-1.001-1.001-1.001h-14.024c-.536 0-1.001.433-1.001 1 0 .083-.008.013.188 1.483h-.19c-.524 0-1.001.422-1.001 1.007 0 .101-.016-.027.29 2.01h-.291c-.569 0-1.001.464-1.001.999 0 .118-.105-.582 1.694 10.659.077.486.496.842.988.842h14.635c.492 0 .911-.356.988-.842 1.801-11.25 1.693-10.54 1.693-10.66z" fill-rule="nonzero"/></svg>
-                            </svg>
-                            Categorii
-                        </button>
-                        <div x-show="open" @click.away="open = false" class="origin-bottom-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
-                            <div class="py-1" role="menu" aria-orientation="" aria-labelledby="options-menu">
-                                @foreach($categories as $category)
-                                <a href="{{ route('posts.index', ['category' => $category->id]) }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
-                                    {{ $category->name }}
-                                </a>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-
+                    <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')">
+                        <svg width="20" height="20" fill="currentColor" class="inline-block mr-2" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M1.926 7l-.556-2.999h21.256l-.556 2.999h-20.144zm1.514-5l-.439-2h17.994l-.439 2h-17.116zm-3.44 7.001l2.035 14.999h19.868l2.097-14.999h-24zm3.782 13l-1.22-9.001h18.86l-1.259 9.001h-16.381zm8.317-1.284l.004.283h-5.939l-.048-.292c-.133-.779-.177-1.224.582-1.43.842-.227 1.684-.429 1.168-1.289-1.627-2.546-.848-3.989.634-3.989 1.454 0 2.516 1.39 1.355 3.99-.348.854.5 1.056 1.401 1.289.801.207.834.654.843 1.438zm6.628-4.717h-4.784l-.028 1h4.675l.137-1zm.273-2h-5l-.028 1h4.892l.136-1zm-.548 4h-4.566l-.029 1h4.459l.136-1zm-.273 2h-4.351l-.028 1h4.241l.138-1z"/></svg> 
+                            
+                        </svg>
+                        
+                        {{ __('Profile') }}
+                    </x-nav-link>
+                  
                 </div>
+
+
+                
 
                 
             </div>
