@@ -4,6 +4,9 @@
         <div class=" flex justify-between h-16">
             <div class="flex">
 
+            
+                
+
                 <!-- Search Bar -->
                 <form action="{{ route('posts.index') }}" method="GET" class="sm:ml-10 flex items-center bg-dark rounded-full p-2 shadow">
                     <input type="text" name="search" class="py-1 border border-gray-300 shadow-sm rounded-full p-2 bg-transparent focus:outline-none w-64" placeholder="Caută..." value="{{ request()->get('search') }}">
@@ -23,25 +26,47 @@
                            </svg>
                         {{ __('Acasa') }}
                     </x-nav-link>
+
+
                     <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')">
                         <svg width="20" height="20" fill="currentColor" class="inline-block mr-2" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M1.926 7l-.556-2.999h21.256l-.556 2.999h-20.144zm1.514-5l-.439-2h17.994l-.439 2h-17.116zm-3.44 7.001l2.035 14.999h19.868l2.097-14.999h-24zm3.782 13l-1.22-9.001h18.86l-1.259 9.001h-16.381zm8.317-1.284l.004.283h-5.939l-.048-.292c-.133-.779-.177-1.224.582-1.43.842-.227 1.684-.429 1.168-1.289-1.627-2.546-.848-3.989.634-3.989 1.454 0 2.516 1.39 1.355 3.99-.348.854.5 1.056 1.401 1.289.801.207.834.654.843 1.438zm6.628-4.717h-4.784l-.028 1h4.675l.137-1zm.273-2h-5l-.028 1h4.892l.136-1zm-.548 4h-4.566l-.029 1h4.459l.136-1zm-.273 2h-4.351l-.028 1h4.241l.138-1z"/></svg> 
-                            
-                        </svg>
-                        
+                        </svg>                     
                         {{ __('Profile') }}
                     </x-nav-link>
-                  
+
+                    
+                    <div class="hidden sm:flex sm:items-center sm:ml-6">
+                        <x-dropdown align="right" width="48">
+                            <x-slot name="trigger">
+                                <button class="focus:outline-none">
+                                    <svg width="20" height="20" fill="currentColor" class="inline-block mr-2" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="..."></path></svg>
+                                    </svg>
+                                    {{ __('Categorii') }}
+                                </button>
+                            </x-slot>
+
+                            <x-slot name="content">
+                                @foreach($categories as $category)
+                                    <x-dropdown-link :href="route('posts.index', ['category' => $category->id])" class="{{ request('category') == $category->id ? 'bg-blue-100 text-blue-600' : '' }}">
+                                        {{ $category->name }} 
+
+
+                                    </x-dropdown-link>
+                                @endforeach
+                            </x-slot>
+                        </x-dropdown>
+                    </div>
+
                 </div>
 
 
                 
-
                 
             </div>
 
             @if (Auth::check())
-                <!-- Add Posts Button and Settings Dropdown for authenticated user -->
                 <div class="sm:flex sm:items-center sm:ml-6">
                     <a href="{{ route('posts.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-600 active:bg-blue-800 focus:outline-none focus:border-blue-900 focus:shadow-outline-blue transition ease-in-out duration-150 mr-4">
                         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="mr-2">
