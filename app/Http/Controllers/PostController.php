@@ -18,13 +18,25 @@ class PostController extends Controller
     // Display a listing of the posts
 
     
-    public function index()
-    {
-        $posts = Post::orderBy('created_at', 'desc')->get();
-        return view('posts.index', ['posts' => $posts]);
+    public function index(Request $request)
+{
+    $search = $request->get('search');
 
-        
+    if ($search) {
+        $posts = Post::where('title', 'LIKE', '%' . $search . '%')
+            ->orWhereHas('tags', function ($query) use ($search) {
+                $query->where('name', 'LIKE', '%' . $search . '%');
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+    } else {
+        $posts = Post::orderBy('created_at', 'desc')->get();
     }
+
+    return view('posts.index', ['posts' => $posts]);
+}
+
+
     
 
     // Show the form for creating a new post

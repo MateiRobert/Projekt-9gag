@@ -2,7 +2,13 @@
 
 @section('content')
 <div class="container">
-    @foreach($posts as $post)
+    
+@if($posts->isEmpty())
+    <div class="text-center my-4 text-gray-600">
+        Nu există postări pentru termenul de căutare specificat.
+    </div>
+@endif
+@foreach($posts as $post)
         <div class="flex bg-white rounded-lg p-4 mb-4 mx-auto relative" style="max-width: 85%; width: 45%; height: 760px;"> 
             <div class="flex-shrink-0 mr-3">
                <img src="{{ asset('storage/' . $post->user->avatar_path) }}" alt="{{ $post->user->name }}" class="w-10 h-10 rounded-full">
@@ -18,7 +24,9 @@
                         <div class="ml-auto">
                             <x-dropdown align="right">
                                 <x-slot name="trigger">
-                                    <button class="focus:outline-none">&#8942;</button>
+                                    <button class="text-gray-500 hover:text-gray-600 focus:outline-none">
+                                        <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                                        <svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m3.3 15.4c.717 0 1.3.583 1.3 1.3s-.583 1.3-1.3 1.3-1.3-.583-1.3-1.3.583-1.3 1.3-1.3zm2.7 1.85c0-.414.336-.75.75-.75h14.5c.414 0 .75.336.75.75s-.336.75-.75.75h-14.5c-.414 0-.75-.336-.75-.75zm-2.7-6.55c.717 0 1.3.583 1.3 1.3s-.583 1.3-1.3 1.3-1.3-.583-1.3-1.3.583-1.3 1.3-1.3zm2.7 1.3c0-.414.336-.75.75-.75h14.5c.414 0 .75.336.75.75s-.336.75-.75.75h-14.5c-.414 0-.75-.336-.75-.75zm-2.7-6c.717 0 1.3.583 1.3 1.3s-.583 1.3-1.3 1.3-1.3-.583-1.3-1.3.583-1.3 1.3-1.3zm2.7.75c0-.414.336-.75.75-.75h14.5c.414 0 .75.336.75.75s-.336.75-.75.75h-14.5c-.414 0-.75-.336-.75-.75z" fill-rule="nonzero"/></svg>                                        </svg>
                                 </x-slot>
                                 <x-slot name="content">
                                     <a href="{{ route('posts.edit', $post->id) }}" class="block px-4 py-2 text-white hover:bg-indigo-500 hover:text-white">Editează postarea</a>

@@ -11,6 +11,15 @@
                 </div>
 
                 <!-- Navigation Links -->
+<form action="{{ route('posts.index') }}" method="GET" class="sm:ml-10 flex items-center bg-white rounded-full p-2 shadow">
+    <input type="text" name="search" placeholder="Caută..." class="rounded-full p-2 bg-transparent focus:outline-none w-64" value="{{ request()->get('search') }}">
+    <button type="submit" class="ml-2 rounded-full p-2 bg-blue-500 hover:bg-blue-600 text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 11-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+        </svg>
+    </button>
+</form>
+
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
 
                 
