@@ -3,33 +3,44 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
-                <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('posts.index') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                    </a>
-                </div>
 
-                <!-- Navigation Links -->
-<form action="{{ route('posts.index') }}" method="GET" class="sm:ml-10 flex items-center bg-white rounded-full p-2 shadow">
-    <input type="text" name="search" placeholder="Caută..." class="rounded-full p-2 bg-transparent focus:outline-none w-64" value="{{ request()->get('search') }}">
-    <button type="submit" class="ml-2 rounded-full p-2 bg-blue-500 hover:bg-blue-600 text-white">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 11-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-        </svg>
-    </button>
-</form>
-
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <!-- Search Bar -->
+                <form action="{{ route('posts.index') }}" method="GET" class="sm:ml-10 flex items-center bg-white rounded-full p-2 shadow">
+                    <input type="text" name="search" placeholder="Caută..." class="rounded-full p-2 bg-transparent focus:outline-none w-64" value="{{ request()->get('search') }}">
+                    <button type="submit" class="ml-2 rounded-full p-2 bg-blue-500 hover:bg-blue-600 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 11-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </form>
 
                 
+                <!-- Criterii -->
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')">
                         <svg width="20" height="20" fill="currentColor" class="inline-block mr-2" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M9.70711 2.29289C10.0976 1.90237 10.7308 1.90237 11.1213 2.29289L18.1213 9.29289C18.5118 9.68342 18.5118 10.3166 18.1213 10.7071C17.7308 11.0976 17.0976 11.0976 16.7071 10.7071L11 5.41421L11 17C11 17.5523 10.5523 18 10 18C9.44772 18 9 17.5523 9 17L9 5.41421L3.29289 10.7071C2.90237 11.0976 2.2692 11.0976 1.87868 10.7071C1.48815 10.3166 1.48815 9.68342 1.87868 9.29289L8.87868 2.29289C9.2692 1.90237 9.90237 1.90237 10.2929 2.29289L10.2929 2.29289L9.70711 2.29289Z">
-                            </path>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 9.185l7 6.514v6.301h-3v-5h-8v5h-3v-6.301l7-6.514zm0-2.732l-9 8.375v9.172h7v-5h4v5h7v-9.172l-9-8.375zm12 5.695l-12-11.148-12 11.133 1.361 1.465 10.639-9.868 10.639 9.883 1.361-1.465z"/></svg>
                            </svg>
                         {{ __('Acasa') }}
                     </x-nav-link>
+                    <div x-data="{ open: false }" class="relative inline-flex items-center space-x-2">
+                        <button @click="open = !open" class="inline-flex items-center px-1 py-1 border border-transparent text-sm font-medium rounded-md text-white bg-dark hover:text-white-700 hover:border-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <svg width="20" height="20" fill="currentColor" class="inline-block mr-2" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m18.891 19.498h-13.782l-1.52-9.501h16.823zm-14.306-12.506h14.868l-.227 1.506h-14.415zm.993-2.494h12.882l-.13.983h-12.623zm16.421 4.998c0-.558-.456-.998-1.001-.998h-.253c.309-2.064.289-1.911.289-2.009 0-.58-.469-1.008-1-1.008h-.189c.193-1.461.187-1.399.187-1.482 0-.671-.575-1.001-1.001-1.001h-14.024c-.536 0-1.001.433-1.001 1 0 .083-.008.013.188 1.483h-.19c-.524 0-1.001.422-1.001 1.007 0 .101-.016-.027.29 2.01h-.291c-.569 0-1.001.464-1.001.999 0 .118-.105-.582 1.694 10.659.077.486.496.842.988.842h14.635c.492 0 .911-.356.988-.842 1.801-11.25 1.693-10.54 1.693-10.66z" fill-rule="nonzero"/></svg>
+                            </svg>
+                            Categorii
+                        </button>
+                        <div x-show="open" @click.away="open = false" class="origin-bottom-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
+                            <div class="py-1" role="menu" aria-orientation="" aria-labelledby="options-menu">
+                                @foreach($categories as $category)
+                                <a href="{{ route('posts.index', ['category' => $category->id]) }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
+                                    {{ $category->name }}
+                                </a>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
                 

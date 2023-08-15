@@ -43,7 +43,7 @@
     <p class="mt-2 text-sm text-gray-600">{{ __('Please enter your new email twice to confirm.') }}</p>
 </div>
 
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full"  placeholder="{{ __('Enter new email again') }}" required autocomplete="username" />
+            <x-text-input id="email_confirmation" name="email_confirmation" type="email" class="mt-1 block w-full"  placeholder="{{ __('Enter new email again') }}" required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())

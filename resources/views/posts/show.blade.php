@@ -18,7 +18,7 @@
                 
                 <img src="{{ asset('storage/' . $post->user->avatar_path) }}" alt="{{ $post->user->name }}" class="w-10 h-10 rounded-full mr-3">
                 <div>@</div>
-                <span class="font-semibold">{{ $post->user->name }}</span>
+                <span class="font-semibold ">{{ $post->user->name }}</span>
                 <span class="text-gray-500 text-sm ml-2 italic">~ {{ $post->category->name }}</span>
                 <span class="text-gray-500 ml-2">{{ $post->created_at->diffForHumans() }}</span>
 
@@ -67,11 +67,10 @@
                 @endif
             </div>
 
-            <!-- Post content -->
-            <p class="mb-4">{{ $post->content }}</p>
+            
 
             <!-- Line separator -->
-            <hr class="my-4">
+            <hr class="">
             <!-- Title of the post -->
             <h2 class="text-2xl font-semibold mb-4">{{ $post->title }}</h2>
             <!-- Tagurile -->
@@ -81,6 +80,8 @@
                 @endforeach
             </div>
 
+            <hr class="">
+        
             <!-- Display previous comments -->
             <div class="mb-4 overflow-y-auto" style="max-height: 300px;">
                 @foreach($post->comments as $comment)
