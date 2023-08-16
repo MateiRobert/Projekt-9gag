@@ -66,23 +66,25 @@
                 @endphp
                 <form action="{{ route('post.upvote', $post->id) }}" method="POST">
                     @csrf
-                     <button type="submit" class="p-2 focus:outline-none hover:bg-blue-100">
-                        <svg class="w-8 h-8 text-gray-400 {{ $userVote && $userVote->value === 1 ? 'fill-current text-blue-500' : '' }}" viewBox="0 0 24 24">
+                     <button type="submit" class="p-2 focus:outline-none ">
+                    <svg class="w-8 h-8 {{ $userVote && $userVote->value === 1 ? 'text-blue-500 fill-current' : 'text-gray-400' }}" viewBox="0 0 24 24">
                             <svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m9.001 10.978h-3.251c-.412 0-.75-.335-.75-.752 0-.188.071-.375.206-.518 1.685-1.775 4.692-4.945 6.069-6.396.189-.2.452-.312.725-.312.274 0 .536.112.725.312 1.377 1.451 4.385 4.621 6.068 6.396.136.143.207.33.207.518 0 .417-.337.752-.75.752h-3.251v9.02c0 .531-.47 1.002-1 1.002h-3.998c-.53 0-1-.471-1-1.002zm7.506-1.5-4.507-4.751-4.507 4.751h3.008v10.022h2.998v-10.022z" fill-rule="nonzero"/></svg>
+                        </svg>
                     </button>
+
                 </form>
                 <span class="text-lg font-semibold">{{ $post->votes->sum('value') }}</span>
                 <form action="{{ route('post.downvote', $post->id) }}" method="POST">
                     @csrf
-                    <button type="submit" class="p-2 focus:outline-none hover:bg-red-100">
+                    <button type="submit" class="p-2 focus:outline-none ">
                         <svg class="w-8 h-8 text-gray-400 {{ $userVote && $userVote->value === -1 ? 'fill-current text-red-500' : '' }}" viewBox="0 0 24 24">
                              <svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m9.001 13.022h-3.251c-.412 0-.75.335-.75.752 0 .188.071.375.206.518 1.685 1.775 4.692 4.945 6.069 6.396.189.2.452.312.725.312.274 0 .536-.112.725-.312 1.377-1.451 4.385-4.621 6.068-6.396.136-.143.207-.33.207-.518 0-.417-.337-.752-.75-.752h-3.251v-9.02c0-.531-.47-1.002-1-1.002h-3.998c-.53 0-1 .471-1 1.002zm4.498-8.522v10.022h3.008l-4.507 4.751-4.507-4.751h3.008v-10.022z" fill-rule="nonzero"/></svg>
                         </svg>
                     </button>
                 </form>
                 
-                <button class="p-2 focus:outline-none hover:bg-gray-100">
-                    <a href="{{ route('posts.show', $post) }}" class="p-2 focus:outline-none hover:bg-gray-100">
+                <button class="p-2 focus:outline-none">
+                    <a href="{{ route('posts.show', $post) }}" class="p-2 focus:outline-none ">
                         <svg class="w-8 h-8 text-gray-400 fill-current" viewBox="0 0 24 24">
                             <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M12 1c-6.338 0-12 4.226-12 10.007 0 2.05.739 4.063 2.047 5.625l-1.993 6.368 6.946-3c1.705.439 3.334.641 4.864.641 7.174 0 12.136-4.439 12.136-9.634 0-5.812-5.701-10.007-12-10.007zm0 1c6.065 0 11 4.041 11 9.007 0 4.922-4.787 8.634-11.136 8.634-1.881 0-3.401-.299-4.946-.695l-5.258 2.271 1.505-4.808c-1.308-1.564-2.165-3.128-2.165-5.402 0-4.966 4.935-9.007 11-9.007zm-5 7.5c.828 0 1.5.672 1.5 1.5s-.672 1.5-1.5 1.5-1.5-.672-1.5-1.5.672-1.5 1.5-1.5zm5 0c.828 0 1.5.672 1.5 1.5s-.672 1.5-1.5 1.5-1.5-.672-1.5-1.5.672-1.5 1.5-1.5zm5 0c.828 0 1.5.672 1.5 1.5s-.672 1.5-1.5 1.5-1.5-.672-1.5-1.5.672-1.5 1.5-1.5z"/></svg>
                         </svg>
@@ -94,11 +96,13 @@
                 <span class="text-gray-600 text-sm">{{ $post->comments->count() }} {{ Str::plural('comment', $post->comments->count()) }}</span>
            
 
-                <button onclick="openReportModal({{ $post->id }})" class="p-2 focus:outline-none hover:bg-gray-200 transition-colors">
-                    <svg class="w-8 h-8 text-gray-400 fill-current hover:text-red-500" viewBox="0 0 24 24">
+                <button onclick="openReportModal({{ $post->id }})" class="p-2 focus:outline-none transition-colors">
+                    <svg class="w-8 h-8 {{ $post->reported_by_user ? 'text-red-500' : 'text-gray-400' }} fill-current hover:text-red-500" viewBox="0 0 24 24">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M4 24h-2v-24h2v24zm18-16l-16-6v12l16-6z"/></svg>
                     </svg>
                 </button>
+
+
             </div>
         </div>
     @endforeach

@@ -17,31 +17,40 @@ class PostController extends Controller
 {
     // Display a listing of the posts
 
-    
+
     public function index(Request $request)
-{
-    $search = $request->get('search');
-    $categoryFilter = $request->get('category');
+    {
+        $search = $request->get('search');
+        $categoryFilter = $request->get('category');
 
-    $query = Post::query();
+        $query = Post::query();
 
-    if ($search) {
-        $query->where('title', 'LIKE', '%' . $search . '%')
-              ->orWhereHas('tags', function ($query) use ($search) {
-                  $query->where('name', 'LIKE', '%' . $search . '%');
-              });
+        if ($search) {
+            $query->where('title', 'LIKE', '%' . $search . '%')
+                ->orWhereHas('tags', function ($query) use ($search) {
+                    $query->where('name', 'LIKE', '%' . $search . '%');
+                });
+        }
+
+        // Filter by selected category
+        if ($categoryFilter) {
+            $query->where('category_id', $categoryFilter);
+        }
+
+        $posts = $query->orderBy('created_at', 'desc')->get();
+        
+        // Check for each post if it has been reported by the authenticated user
+        foreach($posts as $post) {
+            $post->reported_by_user = Report::where('post_id', $post->id)
+                                        ->where('reported_by', Auth::id())
+                                        ->exists();
+        }
+
+        $categories = Category::all();  // Fetch all categories
+
+        return view('posts.index', ['posts' => $posts, 'categories' => $categories]);
     }
 
-    // Filter by selected category
-    if ($categoryFilter) {
-        $query->where('category_id', $categoryFilter);
-    }
-
-    $posts = $query->orderBy('created_at', 'desc')->get();
-    $categories = Category::all();  // Fetch all categories
-
-    return view('posts.index', ['posts' => $posts, 'categories' => $categories]);
-}
 
 
 
