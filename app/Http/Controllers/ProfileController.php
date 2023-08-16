@@ -60,21 +60,30 @@ class ProfileController extends Controller
         return Redirect::to('/');
     }
 
-    public function updateAvatar(Request $request)
-{
-    $request->validate([
-        'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
-    ]);
+        public function updateAvatar(Request $request)
+    {
+        $request->validate([
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+        ]);
 
-    // Delete the old avatar from storage
-    if ($request->user()->avatar) {
-        Storage::delete($request->user()->avatar);
+        // Delete the old avatar from storage
+        if ($request->user()->avatar) {
+            Storage::delete($request->user()->avatar);
+        }
+
+        // Upload the new avatar
+        $avatarPath = $request->file('avatar')->store('avatars');
+
+        // Update the user's avatar path in the database
+        $request->user()->update(['avatar' => $avatarPath]);
     }
 
-    // Upload the new avatar
-    $avatarPath = $request->file('avatar')->store('avatars');
+    public function show()
+    {
+        $user = auth()->user();
+        $posts = $user->posts; // presupunând că avem o relație 'posts' în modelul User
 
-    // Update the user's avatar path in the database
-    $request->user()->update(['avatar' => $avatarPath]);
-}
+        return view('profil.index', compact('user', 'posts'));
+    }
+
 }

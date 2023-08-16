@@ -28,7 +28,7 @@
                     </x-nav-link>
 
 
-                    <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')">
+<x-nav-link :href="route('profile.show')" :active="request()->routeIs('profile.show')">
                         <svg width="20" height="20" fill="currentColor" class="inline-block mr-2" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M1.926 7l-.556-2.999h21.256l-.556 2.999h-20.144zm1.514-5l-.439-2h17.994l-.439 2h-17.116zm-3.44 7.001l2.035 14.999h19.868l2.097-14.999h-24zm3.782 13l-1.22-9.001h18.86l-1.259 9.001h-16.381zm8.317-1.284l.004.283h-5.939l-.048-.292c-.133-.779-.177-1.224.582-1.43.842-.227 1.684-.429 1.168-1.289-1.627-2.546-.848-3.989.634-3.989 1.454 0 2.516 1.39 1.355 3.99-.348.854.5 1.056 1.401 1.289.801.207.834.654.843 1.438zm6.628-4.717h-4.784l-.028 1h4.675l.137-1zm.273-2h-5l-.028 1h4.892l.136-1zm-.548 4h-4.566l-.029 1h4.459l.136-1zm-.273 2h-4.351l-.028 1h4.241l.138-1z"/></svg> 
                         </svg>                     
@@ -39,9 +39,9 @@
                     <div class="hidden sm:flex sm:items-center sm:ml-6">
                         <x-dropdown align="right" width="48">
                             <x-slot name="trigger">
-                                <button class="focus:outline-none">
+                                <button class="focus:outline-none flex items-center">
                                     <svg width="20" height="20" fill="currentColor" class="inline-block mr-2" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="..."></path></svg>
+                                        <path fill-rule="evenodd" d="M4.293 7.293a1 1 0 011.414 0L10 11.586l4.293-4.293a1 1 0 111.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414z" clip-rule="evenodd" />
                                     </svg>
                                     {{ __('Categorii') }}
                                 </button>
@@ -49,15 +49,14 @@
 
                             <x-slot name="content">
                                 @foreach($categories as $category)
-                                    <x-dropdown-link :href="route('posts.index', ['category' => $category->id])" class="{{ request('category') == $category->id ? 'bg-blue-100 text-blue-600' : '' }}">
-                                        {{ $category->name }} 
-
-
+                                    <x-dropdown-link :href="route('posts.index', ['category' => $category->id])" class="block transition-colors duration-300 ease-in-out {{ request('category') == $category->id ? 'bg-blue-900 text-blue-600' : 'text-white hover:bg-gray-100' }} {{ request('category') == $category->id ? 'font-semibold' : '' }}">
+                                        {{ $category->name }}
                                     </x-dropdown-link>
                                 @endforeach
                             </x-slot>
                         </x-dropdown>
                     </div>
+
 
                 </div>
 

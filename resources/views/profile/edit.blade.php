@@ -23,6 +23,7 @@
     <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
         @csrf
         @method('patch')
+        
 
         <div>
             <x-input-label for="name" :value="__('Name')" />
@@ -30,7 +31,7 @@
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
-        <div>
+        
             
 <div>
     <x-input-label for="old_email" :value="__('Current Email')" />
@@ -110,6 +111,8 @@
             <x-text-input id="current_password" name="current_password" type="password" class="mt-1 block w-full" autocomplete="current-password" />
             <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2" />
         </div>
+
+        
 
         <div>
             <x-input-label for="password" :value="__('New Password')" />

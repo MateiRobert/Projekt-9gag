@@ -51,6 +51,8 @@
                 </div>
             </div>
             
+             
+
             <!-- Tagurile -->
             <div class="absolute bottom-4 left-4 flex items-center space-x-4">
                 @foreach($post->tags as $tag)
@@ -86,6 +88,9 @@
                         </svg>
                     </a>
                 </button>
+
+                
+
                 <span class="text-gray-600 text-sm">{{ $post->comments->count() }} {{ Str::plural('comment', $post->comments->count()) }}</span>
            
 
