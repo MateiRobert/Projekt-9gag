@@ -2,9 +2,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\ProfileController;
+use App\Models\Post;
+use App\Models\Report;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\VoteController;
+use App\Http\Controllers\CommentController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -52,6 +57,17 @@ Route::middleware('auth')->group(function () {
 
 
 
+    //Pentru admin (dashboard)
+    Route::middleware(['auth', 'admin'])->group(function () {
+        Route::get('/administrator', function () {
+            $posts = Post::with('user')->orderBy('created_at', 'desc')->get();
+            $totalPosts = Post::count();
+            $reportedPosts = Report::distinct('post_id')->count('post_id');
+            return view('administrator.index', ['posts' => $posts, 'totalPosts' => $totalPosts, 'reportedPosts' => $reportedPosts]);
+        })->name('admin.index');
+    });
+    
+    
 
 
 

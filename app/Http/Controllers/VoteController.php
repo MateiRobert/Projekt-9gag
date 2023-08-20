@@ -26,6 +26,7 @@ class VoteController extends Controller
         }
         
         return back();
+        
     }
 
     public function downvote(Post $post)

@@ -9,7 +9,7 @@
 
                 <!-- Search Bar -->
                 <form action="{{ route('posts.index') }}" method="GET" class="sm:ml-10 flex items-center bg-dark rounded-full p-2 shadow">
-                    <input type="text" name="search" class="py-1 border border-gray-300 shadow-sm rounded-full p-2 bg-transparent focus:outline-none w-64" placeholder="Caută..." value="{{ request()->get('search') }}">
+                    <input type="text" name="search" class="py-1 border border-gray-300 shadow-sm rounded-full p-2 bg-transparent focus:outline-none w-64" placeholder="Search Tags/Title..." value="{{ request()->get('search') }}">
                     <button type="submit" class="ml-2 rounded-full p-1.5 bg-blue-500 hover:bg-blue-600 text-black">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 11-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
@@ -24,7 +24,7 @@
                         <svg width="20" height="20" fill="currentColor" class="inline-block mr-2" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 9.185l7 6.514v6.301h-3v-5h-8v5h-3v-6.301l7-6.514zm0-2.732l-9 8.375v9.172h7v-5h4v5h7v-9.172l-9-8.375zm12 5.695l-12-11.148-12 11.133 1.361 1.465 10.639-9.868 10.639 9.883 1.361-1.465z"/></svg>
                            </svg>
-                        {{ __('Acasa') }}
+                        {{ __('Home') }}
                     </x-nav-link>
 
 
@@ -43,7 +43,7 @@
                                     <svg width="20" height="20" fill="currentColor" class="inline-block mr-2" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd" d="M4.293 7.293a1 1 0 011.414 0L10 11.586l4.293-4.293a1 1 0 111.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414z" clip-rule="evenodd" />
                                     </svg>
-                                    {{ __('Categorii') }}
+                                    {{ __('Categories') }}
                                 </button>
                             </x-slot>
 
@@ -111,6 +111,12 @@
                                 @csrf
                                 <x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
                                     {{ __('Log Out') }}
+@if (Auth::user()->is_admin)
+    <x-responsive-nav-link :href="route('admin.index')">
+        {{ __('Dashboard Admin') }}
+    </x-responsive-nav-link>
+@endif
+
                                 </x-dropdown-link>
                             </form>
                         </x-slot>
@@ -153,18 +159,30 @@
                     <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
                 </div>
 
+                <!-- Settings Dropdown for authenticated user -->
+                <!-- Account Settings -->
                 <div class="mt-3 space-y-1">
                     <x-responsive-nav-link :href="route('profile.edit')">
                         {{ __('Setari Cont') }}
                     </x-responsive-nav-link>
 
-                    <!-- Authentication -->
+                    <!-- Admin Dashboard -->
+                    @if (Auth::user()->is_admin)
+                        <x-responsive-nav-link :href="route('admin.index')">
+                            {{ __('Dashboard Admin') }}
+                        </x-responsive-nav-link>
+                    @endif
+
+                    <!-- Log Out -->
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
                             {{ __('Log Out') }}
                         </x-responsive-nav-link>
                     </form>
+                    
+
+                    
                 </div>
             @else
                 <div class="px-4 mt-3 space-y-1">
