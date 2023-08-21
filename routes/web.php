@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\VoteController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\DashboardUser;
 
 
 /*
@@ -59,19 +60,19 @@ Route::middleware('auth')->group(function () {
 
     //Pentru admin (dashboard)
     Route::middleware(['auth', 'admin'])->group(function () {
-        Route::get('/administrator', function () {
-            $posts = Post::with('user')->orderBy('created_at', 'desc')->get();
-            $totalPosts = Post::count();
-            $reportedPosts = Report::distinct('post_id')->count('post_id');
-            return view('administrator.index', ['posts' => $posts, 'totalPosts' => $totalPosts, 'reportedPosts' => $reportedPosts]);
-        })->name('admin.index');
+        Route::get('/administrator', [DashboardUser::class, 'dashboard'])->name('administrator.index');
+        })->name('administrator.index');
+
+
     });
     
+
+
+
     
 
 
 
-});
 
 
 Route::get('/posts', [PostController::class, 'index'])->name('posts.index');

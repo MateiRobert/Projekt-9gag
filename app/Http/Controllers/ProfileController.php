@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -84,6 +85,19 @@ class ProfileController extends Controller
         $posts = $user->posts; // presupunând că avem o relație 'posts' în modelul User
 
         return view('profil.index', compact('user', 'posts'));
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        
+        $users = User::where('username', 'LIKE', "%$query%")
+            ->orWhere('name', 'LIKE', "%$query%")
+            ->get();
+
+        $searchResultsHtml = view('administrator.search_results', ['users' => $users])->render();
+        
+        return response()->json(['html' => $searchResultsHtml]);
     }
 
 }

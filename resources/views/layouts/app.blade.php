@@ -20,7 +20,7 @@
 
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+        <div class="min-h-screen bg-gray-100 dark:bg-gray-900 mx-auto">
             @include('layouts.navigation')
                     @if(session('success'))
             <div class="alert alert-success">
@@ -47,7 +47,7 @@
             
 
             <!-- Page Content -->
-            <main>
+            <main class="mx-auto max-w-7xl sm:px-6 lg:px-8">
                 @yield('content')
 
             </main>

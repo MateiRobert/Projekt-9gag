@@ -9,7 +9,7 @@
 
 </head>
 
-<div class="flex f-screen">
+<div class="flex h-screen">
     <!-- Sidebar -->
     <div class="w-1/4 bg-white p-6 shadow-lg">
         <div class="flex flex-col items-center mb-6">
@@ -49,24 +49,23 @@
         </div>
     </div>
     
-    <div id="sectiune1-1" class="content-section transform transition-all opacity-0 -translate-y-4">
+    <div id="sectiune1-1" class="content-section transform transition-all opacity-0 -translate-y-4 h-screen">
         <!-- Conținut pentru Secțiunea 1.1 -->
         Utilizatori
+        
+
         <hr class = "mb-4">
         <!-- Grafice -->
     <div class="flex justify-between">
-    <div class="chart-container w-2/5">
+    <div class="chart-container w-1/4">
         <canvas id="grafic1"></canvas>
     </div>
 
     <div class="border-l-2 h-64 my-4 mx-4"></div>  <!-- Linia de despărțire -->
 
-    <div class="chart-container w-2/5">
+    <div class="chart-container w-1/4">
         <canvas id="grafic2"></canvas>
     </div>
-
-
-
 
     </div>
         <hr class="mb-4">
@@ -84,109 +83,119 @@
                         <th class="py-2 px-6 text-left bg-gray-200">@link_edit_profile</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr class="text-gray-700 text-sm hover:bg-gray-100 transition duration-300">
-                        <td class="py-2 px-6 border-t">Date 1.1</td>
-                        <td class="py-2 px-6 border-t">Date 1.2</td>
-                        <td class="py-2 px-6 border-t">Date 1.3</td>
-                        <td class="py-2 px-6 border-t">Date 1.4</td>
-                        <td class="py-2 px-6 border-t">Date 1.5</td>
-                        <td class="py-2 px-6 border-t">Date 1.6</td>
-                    </tr>
-                    <!-- Repetă aceste rânduri pentru mai multe date în tabel -->
+               <tbody>
+                    @foreach ($users as $user)
+                        <tr class="text-gray-700 text-sm hover:bg-gray-100 transition duration-300">
+                            <td class="py-2 px-6 border-b border-gray-200">{{ $user->username }}</td>
+                            <td class="py-2 px-6 border-b border-gray-200">{{ $user->name }}</td>
+                            <td class="py-2 px-6 border-b border-gray-200">{{ $user->email }}</td>
+                            <td class="py-2 px-6 border-b border-gray-200">{{ $user->created_at }}</td>
+                            <td class="py-2 px-6 border-b border-gray-200 {{ $user->is_active ? 'text-green-500' : 'text-red-500' }}">
+                                {{ $user->is_active ? 'Activ' : 'Inactiv' }}
+                            </td>
+                            <td class="py-2 px-6 border-b border-gray-200 {{ $user->is_admin ? 'text-green-500' : 'text-red-500' }}">
+                                {{ $user->is_admin ? 'Este Admin' : 'Nu  este Admin' }}
+                            </td>
+                            <td class="py-2 px-6 border-b border-gray-200">
+                                <!-- Aici adăugați un link către pagina de editare a profilului utilizatorului -->
+                            </td>
+                        </tr>
+                    @endforeach
                 </tbody>
+
+
             </table>
         </div>
     </div>
         
     <div id="sectiune1-2" class="content-section hidden transform transition-all opacity-0 -translate-y-4">
         <!-- Conținut pentru Secțiunea 1.2 -->
-<div class="container mx-auto px-4 w-full my-4">
+    <div class="container mx-auto px-4 w-full my-4">
 
-    <!-- Cardul principal -->
-    <div class="bg-white p-8 shadow-xl rounded-md space-y-8">
-        
-        <!-- Formular de căutare -->
-        <div class="border-b pb-6">
-            <form action="#" method="POST" class="flex items-center space-x-2">
-                @csrf
-                <input type="text" name="query" placeholder="Caută după username sau nume..." value="john_doe" class="p-2 border border-gray-300 rounded-md flex-grow focus:border-blue-400 focus:ring focus:ring-blue-200 transition">
-                <button type="submit" class="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">Caută</button>
-            </form>
-        </div>
-
-        <!-- Grid pentru Informațiile utilizatorului și Editare informații -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Cardul principal -->
+        <div class="bg-white p-8 shadow-xl rounded-md space-y-8">
             
-            <!-- Informațiile utilizatorului -->
-            <div class="space-y-4 md:border md:p-4">
-                <h2 class="text-2xl font-bold">Profilul utilizatorului</h2>
-                <div>Nume: <span class="font-medium text-gray-700">John Doe</span></div>
-                <div>Email: <span class="font-medium text-gray-700">john.doe@example.com</span></div>
-                <div>Username: <span class="font-medium text-gray-700">john_doe</span></div>
-                <div>Avatar: <img src="path/to/dummy/avatar.jpg" alt="Avatar" class="w-24 h-24 rounded-full"></div>
-                <div>Este activ? <span class="font-medium text-gray-700">Da</span></div>
-                <div>Este administrator? <span class="font-medium text-gray-700">Nu</span></div>
-            </div>
-
-            <!-- Editare informații -->
-            <div class="space-y-4 md:border md:p-4">
-                <h2 class="text-2xl font-bold">Editare informații</h2>
-
-                <form action="#" method="POST" class="space-y-4">
+            <!-- Formular de căutare -->
+            <div class="border-b pb-6">
+                <form action="#" method="POST" class="flex items-center space-x-2">
                     @csrf
-                    @method('PUT')
-                    
-                    <div>
-                        <label for="username" class="block mb-2 text-gray-600">Username:</label>
-                        <input type="text" name="username" value="john_doe" id="username" class="p-2 w-full border border-gray-300 rounded-md focus:border-blue-400 focus:ring focus:ring-blue-200 transition">
-                    </div>
-                    
-                    <div>
-                        <label for="name" class="block mb-2 text-gray-600">Nume:</label>
-                        <input type="text" name="name" value="John Doe" id="name" class="p-2 w-full border border-gray-300 rounded-md focus:border-blue-400 focus:ring focus:ring-blue-200 transition">
-                    </div>
-
-                    <div>
-                        <label for="email" class="block mb-2 text-gray-600">Email:</label>
-                        <input type="text" name="email" value="john.doe@example.com" id="email" class="p-2 w-full border border-gray-300 rounded-md focus:border-blue-400 focus:ring focus:ring-blue-200 transition">
-                    </div>
-
-                    <div>
-                        <span class="text-gray-600 block mb-2">Este activ?</span>
-                        <div class="space-x-4">
-                            <label class="inline-flex items-center">
-                                <input type="radio" class="form-radio text-green-500" name="is_active" value="1" checked>
-                                <span class="ml-2">Da</span>
-                            </label>
-                            <label class="inline-flex items-center">
-                                <input type="radio" class="form-radio text-red-500" name="is_active" value="0">
-                                <span class="ml-2">Nu</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div>
-                        <span class="text-gray-600 block mb-2">Este administrator?</span>
-                        <div class="space-x-4">
-                            <label class="inline-flex items-center">
-                                <input type="radio" class="form-radio text-green-500" name="is_admin" value="1">
-                                <span class="ml-2">Da</span>
-                            </label>
-                            <label class="inline-flex items-center">
-                                <input type="radio" class="form-radio text-red-500" name="is_admin" value="0" checked>
-                                <span class="ml-2">Nu</span>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="mt-4">
-                        <button type="submit" class="p-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition">Actualizează</button>
-                    </div>
+                    <input type="text" name="query" placeholder="Caută după username sau nume..." value="john_doe" class="p-2 border border-gray-300 rounded-md flex-grow focus:border-blue-400 focus:ring focus:ring-blue-200 transition">
+                    <button type="submit" class="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">Caută</button>
                 </form>
             </div>
+
+            <!-- Grid pentru Informațiile utilizatorului și Editare informații -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Informațiile utilizatorului -->
+                <div class="space-y-4 md:border md:p-4">
+                    <h2 class="text-2xl font-bold">Profilul utilizatorului</h2>
+                    <div>Nume: <span class="font-medium text-gray-700">John Doe</span></div>
+                    <div>Email: <span class="font-medium text-gray-700">john.doe@example.com</span></div>
+                    <div>Username: <span class="font-medium text-gray-700">john_doe</span></div>
+                    <div>Avatar: <img src="path/to/dummy/avatar.jpg" alt="Avatar" class="w-24 h-24 rounded-full"></div>
+                    <div>Este activ? <span class="font-medium text-gray-700">Da</span></div>
+                    <div>Este administrator? <span class="font-medium text-gray-700">Nu</span></div>
+                </div>
+
+                <!-- Editare informații -->
+                <div class="space-y-4 md:border md:p-4">
+                    <h2 class="text-2xl font-bold">Editare informații</h2>
+
+                    <form action="#" method="POST" class="space-y-4">
+                        @csrf
+                        @method('PUT')
+                        
+                        <div>
+                            <label for="username" class="block mb-2 text-gray-600">Username:</label>
+                            <input type="text" name="username" value="john_doe" id="username" class="p-2 w-full border border-gray-300 rounded-md focus:border-blue-400 focus:ring focus:ring-blue-200 transition">
+                        </div>
+                        
+                        <div>
+                            <label for="name" class="block mb-2 text-gray-600">Nume:</label>
+                            <input type="text" name="name" value="John Doe" id="name" class="p-2 w-full border border-gray-300 rounded-md focus:border-blue-400 focus:ring focus:ring-blue-200 transition">
+                        </div>
+
+                        <div>
+                            <label for="email" class="block mb-2 text-gray-600">Email:</label>
+                            <input type="text" name="email" value="john.doe@example.com" id="email" class="p-2 w-full border border-gray-300 rounded-md focus:border-blue-400 focus:ring focus:ring-blue-200 transition">
+                        </div>
+
+                        <div>
+                            <span class="text-gray-600 block mb-2">Este activ?</span>
+                            <div class="space-x-4">
+                                <label class="inline-flex items-center">
+                                    <input type="radio" class="form-radio text-green-500" name="is_active" value="1" checked>
+                                    <span class="ml-2">Da</span>
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="radio" class="form-radio text-red-500" name="is_active" value="0">
+                                    <span class="ml-2">Nu</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="text-gray-600 block mb-2">Este administrator?</span>
+                            <div class="space-x-4">
+                                <label class="inline-flex items-center">
+                                    <input type="radio" class="form-radio text-green-500" name="is_admin" value="1">
+                                    <span class="ml-2">Da</span>
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="radio" class="form-radio text-red-500" name="is_admin" value="0" checked>
+                                    <span class="ml-2">Nu</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <button type="submit" class="p-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition">Actualizează</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-    </div>
 
 
 
@@ -247,35 +256,36 @@
         }
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    const ctx1 = document.getElementById('grafic1').getContext('2d');
-    const ctx2 = document.getElementById('grafic2').getContext('2d');
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx1 = document.getElementById('grafic1').getContext('2d');
+            const ctx2 = document.getElementById('grafic2').getContext('2d');
 
-    const dateGrafic1 = {
-        labels: ['Blocati', 'Activi'],
-        datasets: [{
-            data: [1, 3],
-            backgroundColor: ['red', 'green']
-        }]
-    };
+            const dateGrafic1 = {
+                labels: ['Blocati', 'Activi'],
+                datasets: [{
+                    data: [{{ $isNotActiveCount }}, {{ $isActiveCount }}],
+                    backgroundColor: ['red', 'green']
+                }]
+            };
 
-    const dateGrafic2 = {
-        labels: ['User', 'Admin'],
-        datasets: [{
-            data: [3, 1],
-            backgroundColor: ['blue', 'cyan']
-        }]
-    };
+            const dateGrafic2 = {
+                labels: ['User', 'Admin'],
+                datasets: [{
+                    data: [{{ $isNotAdminCount }}, {{ $isAdminCount }}],
+                    backgroundColor: ['blue', 'cyan']
+                }]
+            };
 
-    new Chart(ctx1, {
-        type: 'pie',
-        data: dateGrafic1,
-    });
+            new Chart(ctx1, {
+                type: 'pie',
+                data: dateGrafic1,
+            });
 
-    new Chart(ctx2, {
-        type: 'pie',
-        data: dateGrafic2,
-    });
-});
+            new Chart(ctx2, {
+                type: 'pie',
+                data: dateGrafic2,
+            });
+        });
+
     </script>
 
