@@ -60,8 +60,16 @@ Route::middleware('auth')->group(function () {
 
     //Pentru admin (dashboard)
     Route::middleware(['auth', 'admin'])->group(function () {
-        Route::get('/administrator', [DashboardUser::class, 'dashboard'])->name('administrator.index');
-        })->name('administrator.index');
+        Route::get('/administrator', [DashboardUser::class, 'dashboard'])->name('admin.index');
+        })->name('admin.index');
+
+
+        Route::delete('/administrator/{id}', [DashboardUser::class, 'deleteUser'])->name('admin.deleteUser');
+        Route::patch('/administrator/{id}', [DashboardUser::class, 'updateUser'])->name('admin.updateUser');
+        Route::get('/search', [DashboardUser::class, 'search'])->name('admin.search');
+
+        
+
 
 
     });

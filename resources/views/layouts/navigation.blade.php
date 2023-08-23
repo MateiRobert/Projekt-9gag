@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 shadow sticky top-0 z-50 border-b border-gray-200 dark:border-gray-900 dark:text-white dark:bg-gray-800">
+<nav x-data="{ open: false }" style="background-color: #2f2e4e; color: #fff; box-shadow: 0px 4px 6px -1px rgb(0 0 0 / 10%); position: sticky; top: 0; z-index: 50;">
     <!-- Primary Navigation Menu -->
     <div class=" mx-auto px-4 sm:px-6 lg:px-8">
         <div class=" flex justify-between h-16">
@@ -9,8 +9,8 @@
 
                 <!-- Search Bar -->
                 <form action="{{ route('posts.index') }}" method="GET" class="sm:ml-10 flex items-center bg-dark rounded-full p-2 shadow">
-                    <input type="text" name="search" class="py-1 border border-gray-300 shadow-sm rounded-full p-2 bg-transparent focus:outline-none w-64" placeholder="Search Tags/Title..." value="{{ request()->get('search') }}">
-                    <button type="submit" class="ml-2 rounded-full p-1.5 bg-blue-500 hover:bg-blue-600 text-black">
+                    <input type="text" name="search" class="py-1 border border-violet-700 shadow-sm rounded-full p-2 bg-transparent focus:outline-none w-64" placeholder="Search Tags/Title..." value="{{ request()->get('search') }}">
+                    <button type="submit" class="ml-2 rounded-full p-1.5 bg-orange-100 hover:bg-green-500 text-black">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 11-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
                         </svg>
@@ -28,7 +28,7 @@
                     </x-nav-link>
 
 
-<x-nav-link :href="route('profile.show')" :active="request()->routeIs('profile.show')">
+                    <x-nav-link :href="route('profile.show')" :active="request()->routeIs('profile.show')">
                         <svg width="20" height="20" fill="currentColor" class="inline-block mr-2" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M1.926 7l-.556-2.999h21.256l-.556 2.999h-20.144zm1.514-5l-.439-2h17.994l-.439 2h-17.116zm-3.44 7.001l2.035 14.999h19.868l2.097-14.999h-24zm3.782 13l-1.22-9.001h18.86l-1.259 9.001h-16.381zm8.317-1.284l.004.283h-5.939l-.048-.292c-.133-.779-.177-1.224.582-1.43.842-.227 1.684-.429 1.168-1.289-1.627-2.546-.848-3.989.634-3.989 1.454 0 2.516 1.39 1.355 3.99-.348.854.5 1.056 1.401 1.289.801.207.834.654.843 1.438zm6.628-4.717h-4.784l-.028 1h4.675l.137-1zm.273-2h-5l-.028 1h4.892l.136-1zm-.548 4h-4.566l-.029 1h4.459l.136-1zm-.273 2h-4.351l-.028 1h4.241l.138-1z"/></svg> 
                         </svg>                     

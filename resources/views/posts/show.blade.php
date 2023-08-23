@@ -28,12 +28,12 @@
                     @endphp
 
                     <form action="{{ route('post.upvote', $post->id) }}" method="POST">
-                        @csrf
-                        <button type="submit" class="p-2 focus:outline-none hover:bg-blue-100">
-                             <svg class="w-8 h-8 text-gray-400 {{ $userVote && $userVote->value === 1 ? 'fill-current text-blue-500' : '' }}" viewBox="0 0 24 24">
+                    @csrf
+                     <button type="submit" class="p-2 focus:outline-none ">
+                    <svg class="w-8 h-8 {{ $userVote && $userVote->value === 1 ? 'text-blue-500 fill-current' : 'text-gray-400' }}" viewBox="0 0 24 24">
                             <svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m9.001 10.978h-3.251c-.412 0-.75-.335-.75-.752 0-.188.071-.375.206-.518 1.685-1.775 4.692-4.945 6.069-6.396.189-.2.452-.312.725-.312.274 0 .536.112.725.312 1.377 1.451 4.385 4.621 6.068 6.396.136.143.207.33.207.518 0 .417-.337.752-.75.752h-3.251v9.02c0 .531-.47 1.002-1 1.002h-3.998c-.53 0-1-.471-1-1.002zm7.506-1.5-4.507-4.751-4.507 4.751h3.008v10.022h2.998v-10.022z" fill-rule="nonzero"/></svg>
                         </svg>
-                        </button>
+                    </button>
                     </form>
                     <span class="text-lg font-semibold">{{ $post->votes->sum('value') }}</span>
                     <form action="{{ route('post.downvote', $post->id) }}" method="POST">
@@ -72,15 +72,15 @@
             <!-- Line separator -->
             <hr class="">
             <!-- Title of the post -->
-            <h2 class="text-2xl font-semibold mb-4">{{ $post->title }}</h2>
+            <h2 class="text-2xl font-semibold ">{{ $post->title }}</h2>
             <!-- Tagurile -->
-            <div class="mt-2 mb-4">
+            <div class="mt-2 mb-4 flex flex-wrap "> 
                 @foreach($post->tags as $tag)
-                    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{{ $tag->name }}</span>
+                    <span class="inline-block bg-gray-200 rounded-full px-1 py-1 text-sm font-semibold text-gray-700 mr-2">{{ $tag->name }}</span>
                 @endforeach
             </div>
 
-            <hr class="">
+            <hr class=" mb-4">
         
             <!-- Display previous comments -->
             <div class="mb-4 overflow-y-auto" style="max-height: 300px;">
