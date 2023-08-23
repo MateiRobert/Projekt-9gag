@@ -35,7 +35,6 @@
 </div>
 
 
-
     <div class="grid grid-cols-3 gap-4 mt-6">
         @forelse($posts as $post)
             <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">

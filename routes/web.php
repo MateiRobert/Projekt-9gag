@@ -9,6 +9,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\VoteController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboardUser;
+use App\Http\Controllers\UserProfileController;
 
 
 /*
@@ -31,6 +32,12 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return redirect('/posts');
 });
+
+
+
+Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
+Route::get('/profile/user/{user}', [UserProfileController::class, 'show'])->name('user.show');
 
 Route::middleware('auth')->group(function () {
     //Pentru profil
@@ -55,26 +62,24 @@ Route::middleware('auth')->group(function () {
     //Pentru raportari
     Route::post('/report/{postId}', [PostController::class, 'report'])->name('report.post');
 
+    //Pentru profil
+    Route::patch('/user/{user}/updateDescription', [ProfileController::class, 'updateDescription'])->name('user.updateDescription');
+
 
 
 
     //Pentru admin (dashboard)
     Route::middleware(['auth', 'admin'])->group(function () {
-        Route::get('/administrator', [DashboardUser::class, 'dashboard'])->name('admin.index');
-        })->name('admin.index');
+            Route::get('/administrator', [DashboardUser::class, 'dashboard'])->name('admin.index');
+            })->name('admin.index');
 
 
-        Route::delete('/administrator/{id}', [DashboardUser::class, 'deleteUser'])->name('admin.deleteUser');
-        Route::patch('/administrator/{id}', [DashboardUser::class, 'updateUser'])->name('admin.updateUser');
-        Route::get('/search', [DashboardUser::class, 'search'])->name('admin.search');
+            Route::delete('/administrator/{id}', [DashboardUser::class, 'deleteUser'])->name('admin.deleteUser');
+            Route::patch('/administrator/{id}', [DashboardUser::class, 'updateUser'])->name('admin.updateUser');
+            Route::get('/search', [DashboardUser::class, 'search'])->name('admin.search');
 
-        
-
-
-
-    });
-    
-
+        });
+ 
 
 
     
@@ -82,9 +87,6 @@ Route::middleware('auth')->group(function () {
 
 
 
-
-Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
-Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
 
 
 require __DIR__.'/auth.php';

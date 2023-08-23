@@ -100,4 +100,13 @@ class ProfileController extends Controller
         return response()->json(['html' => $searchResultsHtml]);
     }
 
+    public function updateDescription(Request $request, User $user)
+    {
+        $user->description = $request->description;
+        $user->save();
+    
+        return redirect()->back()->with('message', 'Description updated successfully!');
+    }
+    
+    
 }

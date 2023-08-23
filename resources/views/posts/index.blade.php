@@ -23,7 +23,7 @@
             <div class="flex-grow">
                 <div class="flex items-center text-gray-600 text-sm">
                     <div> @ </div>
-                    <span class="font-bold text-black"> {{ $post->user->name }}</span>
+<a href="{{ route('user.show', $post->user->id) }}" class="font-bold text-black">{{ $post->user->name }}</a>
                     <span class="mx-1">&bull;</span>
                     <span>{{ $post->created_at->diffForHumans() }}</span>
 

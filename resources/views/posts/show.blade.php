@@ -18,7 +18,7 @@
                 
                 <img src="{{ asset('storage/' . $post->user->avatar_path) }}" alt="{{ $post->user->name }}" class="w-10 h-10 rounded-full mr-3">
                 <div>@</div>
-                <span class="font-semibold ">{{ $post->user->name }}</span>
+                <a href="{{ route('user.show', $post->user->id) }}" class="font-bold text-black">{{ $post->user->name }}</a>
                 <span class="text-gray-500 text-sm ml-2 italic">~ {{ $post->category->name }}</span>
                 <span class="text-gray-500 ml-2">{{ $post->created_at->diffForHumans() }}</span>
 
