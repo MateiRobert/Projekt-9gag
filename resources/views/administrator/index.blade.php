@@ -59,7 +59,7 @@
             <button class="w-full p-2 text-left focus:outline-none focus:bg-gray-200 hover:bg-gray-100 transition duration-300 mt-4" onclick="toggleDropdown('dropdown2')">Postari</button>
             <div id="dropdown2" class="transform transition-all max-h-0 overflow-hidden duration-300 space-y-2 pl-4">
                 <button class="w-full p-2 text-left focus:outline-none focus:bg-gray-200 hover:bg-gray-100 transition duration-300" onclick="showContent('sectiune2-1')">Prezentare generală</button>
-                <button class="w-full p-2 text-left focus:outline-none focus:bg-gray-200 hover:bg-gray-100 transition duration-300" onclick="showContent('sectiune2-2')">2.2</button>
+                <button class="w-full p-2 text-left focus:outline-none focus:bg-gray-200 hover:bg-gray-100 transition duration-300" onclick="showContent('sectiune2-2')">Reported Posts</button>
             </div>
         </div>
     </div>
@@ -68,24 +68,24 @@
         <!-- Conținut pentru Secțiunea 1.1 -->
         
         <div class="w-full bg-white p-6 underline text-xl font-semibold mb-4">
-            Users
+            Users: {{ $userCount }}
         </div>
         
 
         <hr class = "mb-4">
         <!-- Grafice -->
-        <div class="flex justify-between">
-            <div class="chart-container w-1/4">
-                <canvas id="grafic1"></canvas>
+            <div class="flex justify-between">
+                <div class="chart-container w-1/4">
+                    <canvas id="grafic1"></canvas>
+                </div>
+
+                <div class="border-l-2 h-64 my-4 mx-4"></div>  <!-- Linia de despărțire -->
+
+                <div class="chart-container w-1/4">
+                    <canvas id="grafic2"></canvas>
+                </div>
+
             </div>
-
-            <div class="border-l-2 h-64 my-4 mx-4"></div>  <!-- Linia de despărțire -->
-
-            <div class="chart-container w-1/4">
-                <canvas id="grafic2"></canvas>
-            </div>
-
-        </div>
             <hr class="mb-4">
             <!-- Start Table -->
             <div class="bg-gray-100 min-h-screen p-4">
@@ -136,7 +136,7 @@
         </div>
         
 
-    </div>
+    
         
 
     
@@ -152,49 +152,56 @@
 
     <div id="sectiune2-1" class="content-section hidden transform transition-all opacity-0 -translate-y-4">
         <!-- Conținut pentru Secțiunea 2.1 -->
+       <div class="w-full bg-white p-6 underline text-xl font-semibold mb-4">
+            Posts: {{ $postsCount }}
+        </div>
+        
 
-        <hr class="mb-4">
+        <hr class = "mb-4">
+        <!-- Grafice -->
+            <div class="flex justify-between">
+                <div class="chart-container w-3/4">
+                    <canvas id="graficPostari"></canvas>
+                </div>
+                
+
+                <div class="border-l-2 h-64 my-4 mx-4"></div>  <!-- Linia de despărțire -->
+
+               
+                <div class="chart-container w-full">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+
+
+
+            </div>
+            <hr class="mb-4">
             <!-- Start Table -->
             <div class="bg-gray-100 min-h-screen p-4">
-                <div class="mb-4 p-4 bg-white shadow rounded-md">
-                    <form action="{{ route('admin.search') }}" method="GET" class="flex items-center">
-                        <input type="text" name="query" placeholder="Caută după username, nume sau e-mail" class="flex-grow p-2 rounded-md border border-gray-300 shadow-sm">
-                        <button type="submit" class="ml-2 p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Caută</button>
-                    </form>
-                </div>
+                
 
                 <table class="w-full bg-white shadow-md rounded-md overflow-hidden text-gray-700">
                     <thead class="bg-gray-200">
                         <tr class="text-gray-600 uppercase text-sm leading-normal">
-                            <th class="py-2 px-6 text-left bg-gray-200">@username</th>
-                            <th class="py-2 px-6 text-left bg-gray-200">@name</th>
-                            <th class="py-2 px-6 text-left bg-gray-200">@email</th>
-                            <th class="py-2 px-6 text-left bg-gray-200">@created_at</th>
-                            <th class="py-2 px-6 text-left bg-gray-200">@is_active</th>
-                            <th class="py-2 px-6 text-left bg-gray-200">@is_admin</th>
-                            <th class="py-2 px-6 text-left bg-gray-200">actions</th>
+                            <th class="py-2 px-6 text-left bg-gray-200">@Title</th>
+                            <th class="py-2 px-6 text-left bg-gray-200">@Category</th>
+                            <th class="py-2 px-6 text-left bg-gray-200">@Posted_by</th>
+                            <th class="py-2 px-6 text-left bg-gray-200">@Created_at</th>
+                            <th class="py-2 px-6 text-left bg-gray-200">@Reports Count</th>
+                            <th class="py-2 px-6 text-left bg-gray-200">@Link_post</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($users as $user)
-                            <tr class="text-sm hover:bg-gray-100 transition duration-300" data-user-id="{{ $user->id }}">
-                                <td class="py-2 px-6 border-b border-gray-200">{{ $user->username }}</td>
-                                <td class="py-2 px-6 border-b border-gray-200">{{ $user->name }}</td>
-                                <td class="py-2 px-6 border-b border-gray-200">{{ $user->email }}</td>
-                                <td class="py-2 px-6 border-b border-gray-200">{{ $user->created_at }}</td>
-                                <td class="py-2 px-6 border-b border-gray-200 {{ $user->is_active ? 'text-green-500' : 'text-red-500' }}">
-                                    {{ $user->is_active ? 'Active' : 'Inactive' }}
-                                </td>
-                                <td class="py-2 px-6 border-b border-gray-200 {{ $user->is_admin ? 'text-green-500' : 'text-red-500' }}">
-                                    {{ $user->is_admin ? 'Admin' : 'Not Admin' }}
-                                </td>
-                                <td class="py-2 px-6 border-b border-gray-200 flex items-center space-x-2">
-                                <button class="text-red-600 hover:text-red-900 delete-row focus:outline-none">X</button>
-                                <span class="text-gray-400">|</span>
-                                <button class="text-blue-600 hover:text-blue-900 edit-row focus:outline-none">Edit</button>
-                            </td>
-
+                        @foreach ($posts as $post)
+                            <tr class="text-sm hover:bg-gray-100 transition duration-300" data-post-id="{{ $post->id }}">
+                                <td class="py-2 px-6 border-b border-gray-200">{{ $post->title }}</td>
+                                <td class="py-2 px-6 border-b border-gray-200">{{ $post->category->name }}</td>
+                                <td class="py-2 px-6 border-b border-gray-200">{{ $post->user->name }}</td>
+                                <td class="py-2 px-6 border-b border-gray-200">{{ $post->created_at }}</td>
+<td class="py-2 px-6 border-b border-gray-200">{{ $reportsCountPerPost[$post->id] ?? 0 }}</td>
+                                <td class="py-2 px-6 border-b border-gray-200"><a href="{{ route('posts.show', $post->id) }}" target="_blank">Link</a></td>
                             </tr>
+                            
                         @endforeach
                     </tbody>
 
@@ -202,12 +209,68 @@
             </div>
         </div>
 
-     
-    </div>
+
+        
+
+
+
+       
+
 
     <div id="sectiune2-2" class="content-section hidden transform transition-all opacity-0 -translate-y-4">
-        <!-- Conținut pentru Secțiunea 2.2 -->2.2
+        <!-- Conținut pentru Secțiunea 2.2 -->
+         <div class="w-full bg-white p-6 underline text-xl font-semibold mb-4">
+            Reporturi: {{ $countPostsReport }}
+        </div>
+        
+
+        <hr class = "mb-4">
+        
+            <div class="bg-gray-100 min-h-screen p-4">
+                
+
+                <table class="w-full bg-white shadow-md rounded-md overflow-hidden text-gray-700">
+                    <thead class="bg-gray-200">
+                        <tr class="text-gray-600 uppercase text-sm leading-normal">
+                            <th class="py-2 px-6 text-left bg-gray-200">@Title</th>
+                            <th class="py-2 px-6 text-left bg-gray-200">@Posted_by</th>
+                            <th class="py-2 px-6 text-left bg-gray-200">@Reported_by</th>
+                            <th class="py-2 px-6 text-left bg-gray-200">@Reason</th>
+                            <th class="py-2 px-6 text-left bg-gray-200">@How many times reported</th>
+                            <th class="py-2 px-6 text-left bg-gray-200">@Link_post</th>
+                        </tr>
+                    </thead>
+                        <tbody>
+                        @foreach ($reportedPostsID as $reportPostID)
+                            @foreach ($posts as $post)
+                                @if ($post->id == $reportPostID)
+                                    <tr class="text-sm hover:bg-gray-100 transition duration-300" data-post-id="{{ $post->id }}">
+                                        <td class="py-2 px-6 border-b border-gray-200">{{ $post->title }}</td>
+                                        <td class="py-2 px-6 border-b border-gray-200">{{ $post->user->name }}</td>
+                                        <td class="py-2 px-6 border-b border-gray-200">{{ $post->user->name }}</td>
+                                        <td class="py-2 px-6 border-b border-gray-200">
+                                            @foreach ($reportReasonsPerPost[$post->id] as $reason)
+                                                {{ $reason }}<br>
+                                            @endforeach
+                                        </td>
+                                        <td class="py-2 px-6 border-b border-gray-200">{{ $reportsCountPerPost[$post->id] ?? 0 }}</td>
+                                        <td class="py-2 px-6 border-b border-gray-200"><a href="{{ route('posts.show', $post->id) }}" target="_blank">Link</a></td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                        @endforeach
+
+                    </tbody>
+
+
+                </table>
+            </div>
+        </div>
+
+        
     </div>
+
+
 
 
 
@@ -276,6 +339,55 @@
       data: dateGrafic2,
     });
   });
+
+
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('graficPostari').getContext('2d');
+    
+        const dateGrafic = {
+        labels: ['Posts OK', 'Posts Reported'],
+        datasets: [{
+            data: [{{ $postsCountOK }}, {{ $countPostsReport }}],
+            backgroundColor: ['green', 'red']
+        }]
+        };
+    
+        new Chart(ctx, {
+        type: 'pie',
+        data: dateGrafic,
+        });
+    });
+
+
+        var ctx = document.getElementById('categoryChart').getContext('2d');
+    var labels = {!! json_encode(array_column($categoryData, 'name')) !!};
+    var data = {!! json_encode(array_column($categoryData, 'posts_count')) !!};
+    var chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Numărul de postări',
+                data: data,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+   
+  
+
+
  
 
 $('.delete-row').click(function() {

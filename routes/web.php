@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\VoteController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\DashboardUser;
+use App\Http\Controllers\DashboarController;
 use App\Http\Controllers\UserProfileController;
 
 
@@ -50,6 +50,7 @@ Route::middleware('auth')->group(function () {
     //Pentru postari
     Route::resource('/posts', PostController::class);
 
+
     //Pentru voturi
     Route::post('/post/{post}/upvote', [VoteController::class, 'upvote'])->name('post.upvote');
     Route::post('/post/{post}/downvote', [VoteController::class, 'downvote'])->name('post.downvote');
@@ -68,16 +69,16 @@ Route::middleware('auth')->group(function () {
 
 
 
+
     //Pentru admin (dashboard)
     Route::middleware(['auth', 'admin'])->group(function () {
-            Route::get('/administrator', [DashboardUser::class, 'dashboard'])->name('admin.index');
+            Route::get('/administrator', [DashboardController::class, 'dashboard'])->name('admin.index');
             })->name('admin.index');
 
 
-            Route::delete('/administrator/{id}', [DashboardUser::class, 'deleteUser'])->name('admin.deleteUser');
-            Route::patch('/administrator/{id}', [DashboardUser::class, 'updateUser'])->name('admin.updateUser');
-            Route::get('/search', [DashboardUser::class, 'search'])->name('admin.search');
-
+            Route::delete('/administrator/{id}', [DashboardController::class, 'deleteUser'])->name('admin.deleteUser');
+            Route::patch('/administrator/{id}', [DashboardController::class, 'updateUser'])->name('admin.updateUser');
+            Route::get('/search', [DashboardController::class, 'search'])->name('admin.search');
         });
  
 

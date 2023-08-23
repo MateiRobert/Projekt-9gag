@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Post;
+use App\Models\Report;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class DashboardUser extends Controller
+class DashboardController extends Controller
 {
     
 
@@ -16,6 +19,37 @@ class DashboardUser extends Controller
         $isActiveCount = User::where('is_active', 1)->count();
         $isNotActiveCount = User::where('is_active', 0)->count();
         $users = User::all();
+        $userCount = User::all()->count();
+
+
+        $posts = Post::all();
+        $postsReport = Report::all();
+        $countPostsReport = Report::all()->count();
+        $postsCountOK = Post::whereNotIn('id', Report::pluck('post_id'))->count();
+        $postsCount = Post::all()->count();
+        $categories = Category::all();
+        $categoryData = [];
+
+        foreach ($categories as $category) {
+            $categoryData[] = [
+                'name' => $category->name,
+                'posts_count' => $category->posts->count(),
+            ];
+        }
+        
+
+        $reportsCountPerPost = [];
+        foreach ($posts as $post) {
+            $reportsCountPerPost[$post->id] = Report::where('post_id', $post->id)->count();
+        }
+
+
+        $reportReasonsPerPost = [];
+        foreach ($posts as $post) {
+            $reportReasonsPerPost[$post->id] = Report::where('post_id', $post->id)->pluck('reason');
+        }
+
+        $reportedPostsID = Report::pluck('post_id');
 
 
 
@@ -25,9 +59,29 @@ class DashboardUser extends Controller
             'isNotAdminCount' => $isNotAdminCount,
             'isActiveCount' => $isActiveCount,
             'isNotActiveCount' => $isNotActiveCount,
-            'users' => $users
+            'users' => $users,
+            'userCount' => $userCount,
+
+
+            'posts' => $posts,
+            'postsReport' => $postsReport,
+            'countPostsReport' => $countPostsReport,
+            'postsCountOK' => $postsCountOK,
+            'postsCount' => $postsCount,
+            'categories' => $categories,
+            'categoryData' => $categoryData,
+            'reportsCountPerPost' => $reportsCountPerPost,
+            'reportReasonsPerPost' => $reportReasonsPerPost,
+            'reportedPostsID' => $reportedPostsID
+
+
+
+
+
         ]);
     }
+
+  
 
 
 
