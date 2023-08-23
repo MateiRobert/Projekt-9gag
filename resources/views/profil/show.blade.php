@@ -6,8 +6,7 @@
         <img src="{{ asset('storage/' . $user->avatar_path) }}" alt="{{ $user->name }}" class="w-32 h-32 rounded-full">
         <div class="ml-6">
             <div class="text-center">
-                <h2 class="text-2xl font-bold text-indigo-700">{{ $user->username }}</h2>
-                <p class="text-gray-500">{{ $user->name }}</p>
+                <p class="text 2xl font-bold text-indigo-700">{{ $user->name }}</p>
                 <hr class="my-2">
                 <pre class="text-gray-500">{{ $user->description }}</pre>
             </div>

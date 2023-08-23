@@ -27,22 +27,33 @@
 
         <div>
             <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
+            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" readonly />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
+
+            
         </div>
+
+
 
         
             
 <div>
     <x-input-label for="old_email" :value="__('Current Email')" />
-    <x-text-input id="old_email" name="old_email" type="email" class="mt-1 block w-full" :value="old('old_email', $user->email)" required autocomplete="username" />
+    <x-text-input id="old_email" name="old_email" type="email" class="mt-1 block w-full" :value="old('old_email', $user->email)" required autocomplete="username" readonly />
     <x-input-error class="mt-2" :messages="$errors->get('old_email')" />
+
+
+
 
     <x-input-label for="email" class="mt-4" :value="__('New Email')" />
     <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email')" placeholder="{{ __('Enter new email') }}" required  />
     <x-input-error class="mt-2" :messages="$errors->get('email')" />
     <p class="mt-2 text-sm text-gray-600">{{ __('Please enter your new email twice to confirm.') }}</p>
-</div>
+
+
+
+
+
 
             <x-text-input id="email_confirmation" name="email_confirmation" type="email" class="mt-1 block w-full"  placeholder="{{ __('Enter new email again') }}" required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
@@ -65,10 +76,10 @@
                 </div>
             @endif
         </div>
-        
-
+            
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
+        </div>
 
             @if (session('status') === 'profile-updated')
                 <p
