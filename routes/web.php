@@ -48,7 +48,9 @@ Route::middleware('auth')->group(function () {
 
     //Pentru postari
     
-    Route::resource('/posts', PostController::class)->except(['index', 'show']);
+    
+    Route::resource('posts', PostController::class)->except('index', 'show'); 
+
 
 
     //Pentru voturi
@@ -83,10 +85,10 @@ Route::middleware('auth')->group(function () {
  
 
 
-Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
+    
 
 
-
+        Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
 
 
 

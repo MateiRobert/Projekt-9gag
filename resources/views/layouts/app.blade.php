@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
+
     <head>
+        
+        
 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>{{ config('app.name', '9gag - Clone') }}</title>
+        
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -19,14 +24,19 @@
 
 
     </head>
+    
     <body class="font-sans antialiased">
+
+        
+    
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900 mx-auto">
+        
             @include('layouts.navigation')
                     @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
 
         @if(session('error'))
             <div class="alert alert-danger">

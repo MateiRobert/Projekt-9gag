@@ -1,10 +1,13 @@
 
 @extends('layouts.app')
 
+
 @section('content')
 <div class="container">
-    
+    @include('animatie')
+
 <div class="card bg-dark p-4 rounded shadow mb-4">
+
     <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">

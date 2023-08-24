@@ -1,3 +1,5 @@
+
+
 <nav x-data="{ open: false }" style="background-color: #2f2e4e; color: #fff; box-shadow: 0px 4px 6px -1px rgb(0 0 0 / 10%); position: sticky; top: 0; z-index: 50;">
     <!-- Primary Navigation Menu -->
     <div class=" mx-auto px-4 sm:px-6 lg:px-8">
@@ -111,11 +113,11 @@
                                 @csrf
                                 <x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
                                     {{ __('Log Out') }}
-@if (Auth::user()->is_admin)
-    <x-responsive-nav-link :href="route('admin.index')">
-        {{ __('Dashboard Admin') }}
-    </x-responsive-nav-link>
-@endif
+                                    @if (Auth::user()->is_admin)
+                                        <x-responsive-nav-link :href="route('admin.index')">
+                                            {{ __('Dashboard Admin') }}
+                                        </x-responsive-nav-link>
+                                    @endif
 
                                 </x-dropdown-link>
                             </form>

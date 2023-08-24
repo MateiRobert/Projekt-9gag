@@ -14,6 +14,8 @@
 
 
 </head>
+@include('animatie')
+
 
 <div class="flex h-screen">
     <!-- Sidebar -->
@@ -198,7 +200,7 @@
                                 <td class="py-2 px-6 border-b border-gray-200">{{ $post->category->name }}</td>
                                 <td class="py-2 px-6 border-b border-gray-200">{{ $post->user->name }}</td>
                                 <td class="py-2 px-6 border-b border-gray-200">{{ $post->created_at }}</td>
-                                <td class="py-2 px-6 border-b border-gray-200">{{ $reportsCountPerPost[$post->id] ?? 0 }}</td>
+<td class="py-2 px-6 border-b border-gray-200">{{ $reportsCountPerPost[$post->id] ?? 0 }}</td>
                                 <td class="py-2 px-6 border-b border-gray-200"><a href="{{ route('posts.show', $post->id) }}" target="_blank">Link</a></td>
                             </tr>
                             
@@ -434,7 +436,7 @@ $('.edit-row').click(function() {
         });
         $.ajax({
             url: '/administrator/' + userId, // Updated URL
-            method: 'PATCH', // Changed from PUT to PATCH (error 500 fixed)
+            method: 'PATCH', // Changed from PUT to PATCH
             data: userData,
             success: function(response) {
                 if (response.status === 'success') {
