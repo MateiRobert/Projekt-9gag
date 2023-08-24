@@ -14,6 +14,7 @@ class SearchPromptRenderer extends Renderer
      */
     public function __invoke(SearchPrompt $prompt): string
     {
+        $prompt->scroll = min($prompt->scroll, $prompt->terminal()->lines() - 7);
         $maxWidth = $prompt->terminal()->cols() - 6;
 
         return match ($prompt->state) {
@@ -45,7 +46,8 @@ class SearchPromptRenderer extends Renderer
                     $this->cyan($this->truncate($prompt->label, $prompt->terminal()->cols() - 6)),
                     $this->valueWithCursorAndSearchIcon($prompt, $maxWidth),
                     $this->renderOptions($prompt),
-                ),
+                )
+                ->hint($prompt->hint),
 
             default => $this
                 ->box(
@@ -53,8 +55,12 @@ class SearchPromptRenderer extends Renderer
                     $prompt->valueWithCursor($maxWidth),
                     $this->renderOptions($prompt),
                 )
+                ->when(
+                    $prompt->hint,
+                    fn () => $this->hint($prompt->hint),
+                    fn () => $this->newLine() // Space for errors
+                )
                 ->spaceForDropdown($prompt)
-                ->newLine(), // Space for errors
         };
     }
 
@@ -100,16 +106,20 @@ class SearchPromptRenderer extends Renderer
             return $this->gray('  '.($prompt->state === 'searching' ? 'Searching...' : 'No results.'));
         }
 
-        return $this->scroll(
-            collect($prompt->matches())
-                ->values()
+        return $this->scrollbar(
+            collect($prompt->visible())
                 ->map(fn ($label) => $this->truncate($label, $prompt->terminal()->cols() - 10))
-                ->map(fn ($label, $i) => $prompt->highlighted === $i
-                    ? "{$this->cyan('›')} {$label}  "
-                    : "  {$this->dim($label)}  "
-                ),
-            $prompt->highlighted,
-            min($prompt->scroll, $prompt->terminal()->lines() - 7),
+                ->map(function ($label, $key) use ($prompt) {
+                    $index = array_search($key, array_keys($prompt->matches()));
+
+                    return $prompt->highlighted === $index
+                        ? "{$this->cyan('›')} {$label}  "
+                        : "  {$this->dim($label)}  ";
+                })
+                ->values(),
+            $prompt->firstVisible,
+            $prompt->scroll,
+            count($prompt->matches()),
             min($this->longest($prompt->matches(), padding: 4), $prompt->terminal()->cols() - 6)
         )->implode(PHP_EOL);
     }

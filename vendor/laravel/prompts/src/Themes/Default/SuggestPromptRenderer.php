@@ -14,6 +14,7 @@ class SuggestPromptRenderer extends Renderer
      */
     public function __invoke(SuggestPrompt $prompt): string
     {
+        $prompt->scroll = min($prompt->scroll, $prompt->terminal()->lines() - 7);
         $maxWidth = $prompt->terminal()->cols() - 6;
 
         return match ($prompt->state) {
@@ -46,8 +47,12 @@ class SuggestPromptRenderer extends Renderer
                     $this->valueWithCursorAndArrow($prompt, $maxWidth),
                     $this->renderOptions($prompt),
                 )
-                ->spaceForDropdown($prompt)
-                ->newLine(), // Space for errors
+                ->when(
+                    $prompt->hint,
+                    fn () => $this->hint($prompt->hint),
+                    fn () => $this->newLine() // Space for errors
+                )
+                ->spaceForDropdown($prompt),
         };
     }
 
@@ -92,15 +97,16 @@ class SuggestPromptRenderer extends Renderer
             return '';
         }
 
-        return $this->scroll(
-            collect($prompt->matches())
+        return $this->scrollbar(
+            collect($prompt->visible())
                 ->map(fn ($label) => $this->truncate($label, $prompt->terminal()->cols() - 10))
-                ->map(fn ($label, $i) => $prompt->highlighted === $i
+                ->map(fn ($label, $key) => $prompt->highlighted === $key
                     ? "{$this->cyan('›')} {$label}  "
                     : "  {$this->dim($label)}  "
                 ),
-            $prompt->highlighted,
-            min($prompt->scroll, $prompt->terminal()->lines() - 7),
+            $prompt->firstVisible,
+            $prompt->scroll,
+            count($prompt->matches()),
             min($this->longest($prompt->matches(), padding: 4), $prompt->terminal()->cols() - 6),
             $prompt->state === 'cancel' ? 'dim' : 'cyan'
         )->implode(PHP_EOL);

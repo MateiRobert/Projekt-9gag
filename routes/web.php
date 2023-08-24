@@ -48,7 +48,7 @@ Route::middleware('auth')->group(function () {
 
 
     //Pentru postari
-    Route::resource('/posts', PostController::class);
+    Route::resource('/posts', PostController::class)->except(['index', 'show']);
 
 
     //Pentru voturi
@@ -67,13 +67,13 @@ Route::middleware('auth')->group(function () {
     Route::patch('/user/{user}/updateDescription', [ProfileController::class, 'updateDescription'])->name('user.updateDescription');
 
 
+});
 
 
 
     //Pentru admin (dashboard)
     Route::middleware(['auth', 'admin'])->group(function () {
             Route::get('/administrator', [DashboardController::class, 'dashboard'])->name('admin.index');
-            })->name('admin.index');
 
 
             Route::delete('/administrator/{id}', [DashboardController::class, 'deleteUser'])->name('admin.deleteUser');
