@@ -434,7 +434,7 @@ $('.edit-row').click(function() {
         });
         $.ajax({
             url: '/administrator/' + userId, // Updated URL
-            method: 'PATCH', // Changed from PUT to PATCH
+            method: 'PATCH', // Changed from PUT to PATCH (error 500 fixed)
             data: userData,
             success: function(response) {
                 if (response.status === 'success') {
