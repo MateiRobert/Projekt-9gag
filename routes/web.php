@@ -36,7 +36,6 @@ Route::get('/dashboard', function () {
 
 
 Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
-Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
 Route::get('/profile/user/{user}', [UserProfileController::class, 'show'])->name('user.show');
 
 Route::middleware('auth')->group(function () {
@@ -84,7 +83,8 @@ Route::middleware('auth')->group(function () {
  
 
 
-    
+Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
+
 
 
 
