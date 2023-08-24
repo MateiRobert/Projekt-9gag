@@ -198,7 +198,7 @@
                                 <td class="py-2 px-6 border-b border-gray-200">{{ $post->category->name }}</td>
                                 <td class="py-2 px-6 border-b border-gray-200">{{ $post->user->name }}</td>
                                 <td class="py-2 px-6 border-b border-gray-200">{{ $post->created_at }}</td>
-<td class="py-2 px-6 border-b border-gray-200">{{ $reportsCountPerPost[$post->id] ?? 0 }}</td>
+                                <td class="py-2 px-6 border-b border-gray-200">{{ $reportsCountPerPost[$post->id] ?? 0 }}</td>
                                 <td class="py-2 px-6 border-b border-gray-200"><a href="{{ route('posts.show', $post->id) }}" target="_blank">Link</a></td>
                             </tr>
                             
