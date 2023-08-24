@@ -24,7 +24,7 @@ class DashboardController extends Controller
 
         $posts = Post::all();
         $postsReport = Report::all();
-        $countPostsReport = Report::all()->count();
+        $countPostsReport = Report::select('post_id')->distinct()->count('post_id');
         $postsCountOK = Post::whereNotIn('id', Report::pluck('post_id'))->count();
         $postsCount = Post::all()->count();
         $categories = Category::all();
@@ -51,6 +51,7 @@ class DashboardController extends Controller
 
         $reportedPostsID = Report::pluck('post_id');
 
+        $reportedPostsCount = Report::all()->count();
 
 
     
@@ -72,7 +73,8 @@ class DashboardController extends Controller
             'categoryData' => $categoryData,
             'reportsCountPerPost' => $reportsCountPerPost,
             'reportReasonsPerPost' => $reportReasonsPerPost,
-            'reportedPostsID' => $reportedPostsID
+            'reportedPostsID' => $reportedPostsID,
+            'reportedPostsCount' => $reportedPostsCount
 
 
 

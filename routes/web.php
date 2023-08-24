@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
 
 
     //Pentru postari
+    
     Route::resource('/posts', PostController::class)->except(['index', 'show']);
 
 

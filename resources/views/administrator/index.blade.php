@@ -220,7 +220,7 @@
     <div id="sectiune2-2" class="content-section hidden transform transition-all opacity-0 -translate-y-4">
         <!-- Conținut pentru Secțiunea 2.2 -->
          <div class="w-full bg-white p-6 underline text-xl font-semibold mb-4">
-            Reporturi: {{ $countPostsReport }}
+            Reporturi: {{ $reportedPostsCount }}
         </div>
         
 
@@ -369,7 +369,7 @@
         data: {
             labels: labels,
             datasets: [{
-                label: 'Numărul de postări',
+                label: 'Number of posts by category',
                 data: data,
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 borderColor: 'rgba(75, 192, 192, 1)',
