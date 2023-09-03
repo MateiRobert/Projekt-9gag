@@ -53,17 +53,18 @@
 
         <!-- Meniu cu sub-butoane -->
         <div>
-            <button class="w-full p-2 text-left focus:outline-none focus:bg-gray-200 hover:bg-gray-100 transition duration-300" onclick="toggleDropdown('dropdown1')">Utilizatori</button>
+            <button class="w-full p-2 text-left focus:outline-none focus:bg-gray-200 hover:bg-gray-100 transition duration-300" onclick="toggleDropdown('dropdown1')">Users</button>
             <div id="dropdown1" class="transform transition-all max-h-0 overflow-hidden duration-300 space-y-2 pl-4">
-                <button class="w-full p-2 text-left focus:outline-none focus:bg-gray-200 hover:bg-gray-100 transition duration-300" onclick="showContent('sectiune1-1')">Prezentare generală</button>
+                <button class="w-full p-2 text-left focus:outline-none focus:bg-gray-200 hover:bg-gray-100 transition duration-300" onclick="showContent('sectiune1-1')">Overview</button>
             </div>
 
-            <button class="w-full p-2 text-left focus:outline-none focus:bg-gray-200 hover:bg-gray-100 transition duration-300 mt-4" onclick="toggleDropdown('dropdown2')">Postari</button>
+            <button class="w-full p-2 text-left focus:outline-none focus:bg-gray-200 hover:bg-gray-100 transition duration-300 mt-4" onclick="toggleDropdown('dropdown2')">Posts</button>
             <div id="dropdown2" class="transform transition-all max-h-0 overflow-hidden duration-300 space-y-2 pl-4">
-                <button class="w-full p-2 text-left focus:outline-none focus:bg-gray-200 hover:bg-gray-100 transition duration-300" onclick="showContent('sectiune2-1')">Prezentare generală</button>
+                <button class="w-full p-2 text-left focus:outline-none focus:bg-gray-200 hover:bg-gray-100 transition duration-300" onclick="showContent('sectiune2-1')">Overview</button>
                 <button class="w-full p-2 text-left focus:outline-none focus:bg-gray-200 hover:bg-gray-100 transition duration-300" onclick="showContent('sectiune2-2')">Reported Posts</button>
             </div>
         </div>
+
     </div>
     
     <div id="sectiune1-1" class="content-section transform transition-all opacity-0 -translate-y-4 h-screen">
@@ -316,7 +317,7 @@
     const ctx2 = document.getElementById('grafic2').getContext('2d');
 
     const dateGrafic1 = {
-      labels: ['Blocati', 'Activi'],
+      labels: ['Inactive', 'Activie'],
       datasets: [{
         data: [{{ $isNotActiveCount }}, {{ $isActiveCount }}],
         backgroundColor: ['red', 'green']
