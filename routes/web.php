@@ -10,6 +10,8 @@ use App\Http\Controllers\VoteController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DashboarController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\FollowController;
+
 
 
 /*
@@ -67,6 +69,10 @@ Route::middleware('auth')->group(function () {
 
     //Pentru profil
     Route::patch('/user/{user}/updateDescription', [ProfileController::class, 'updateDescription'])->name('user.updateDescription');
+
+    //pentru follow system
+    Route::post('follow/{user}', [FollowController::class, 'follow']);
+    Route::delete('unfollow/{user}', [FollowController::class, 'unfollow']);
 
 
 });

@@ -10,7 +10,35 @@
                 <hr class="my-2">
                 <pre class="text-gray-500">{{ $user->description }}</pre>
             </div>
+
+            
         </div>
+
+    <div class= "mx-auto py-8">
+        @if(auth()->check())
+    @if (auth()->user()->isNot($user))
+        @if(auth()->user()->isFollowing($user->id))
+            <form action="/unfollow/{{ $user->id }}" method="post" class="mt-2">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">
+                    Unfollow
+                </button>
+            </form>
+        @else
+            <form action="/follow/{{ $user->id }}" method="post" class="mt-2">
+                @csrf
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">
+                    Follow
+                </button>
+            </form>
+        @endif
+    @endif
+@endif
+
+    </div>
+
+
         
         <div class="ml-auto flex items-center space-x-4 justify-between">
     <div class="text-center">
